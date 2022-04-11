@@ -17,8 +17,6 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+='<p>Passwords do not match</p>';
     }
-        
-    
 
     if(!$('#txtPassword').val()){
         blnError=true;
@@ -27,6 +25,11 @@ $(document).on('click','#btnNewAccount', function(){
         
         blnError=true;
         strErrorMessage+='<p>Password is not valid</p>';
+    }
+
+    if(!$('#txtFirstName').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Email/Username is Blank.</p>';
     }
 
     if(blnError == 1){
