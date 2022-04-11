@@ -1,0 +1,31 @@
+body{
+    --color-primary: #538083;
+    --color-primary-dark: #538089;
+    --color-secondary: #2A7F62;
+    --color-error: #cc3333;
+    --color-success: #CDD1DE;
+    --border-radius: 4px;
+
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:18px;
+    background: url(./images/coffeebean.jpg);
+    background-size: cover;
+}
+
+.btn{
+    /*width:100%;
+    padding: 1rem 2rem;*/
+    font-weight: bold;
+    font-size: 1.1rem;
+    color:#538089;
+    border: none;
+    border-radius: var(--border-radius);
+    outline: none;
+    cursor:pointer;
+    background: var(--color-primary);
+
+}
