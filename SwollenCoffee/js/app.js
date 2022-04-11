@@ -1,6 +1,6 @@
 // Begin Page Specific Functions
 
-$(document).on('click','#btnAddAccount', function(){
+$(document).on('click','#btnNewAccount', function(){
     let strErrorMessage='';
     let blnError = false;
 
