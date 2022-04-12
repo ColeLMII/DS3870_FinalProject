@@ -6,11 +6,11 @@ $(document).on('click','#btnNewAccount', function(){
 
     if(!$('#txtEmail').val()){
         blnError=true;
-        strErrorMessage+= '<p>Email/Username is Blank.</p>';
+        strErrorMessage+= '<p>Email is Blank.</p>';
     }else if(!isValidEmail($('#txtEmail').val())){
         
         blnError=true;
-        strErrorMessage+='<p>Email/Username is not valid</p>';
+        strErrorMessage+='<p>Email is not valid</p>';
     }
 
     if(!doPasswordsMatch($('#txtPassword').val(),$('#txtVerifyPassword').val())){
