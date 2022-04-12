@@ -1,5 +1,3 @@
-// Begin Page Specific Functions
-
 $(document).on('click','#btnNewAccount', function(){
     let strErrorMessage='';
     let blnError = false;
@@ -29,19 +27,39 @@ $(document).on('click','#btnNewAccount', function(){
 
     if(!$('#txtFirstName').val()){
         blnError=true;
-        strErrorMessage+= '<p>Email/Username is Blank.</p>';
+        strErrorMessage+= '<p>First Name is Blank.</p>';
     }
 
-    if(blnError == 1){
+    if(!$('#txtLastName').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Last Name is Blank.</p>';
+    }
+
+    if(!$('#txtAddress').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Address is Blank.</p>';
+    }
+
+    if(!$('#txtPhoneNumber').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Phone Number is Blank.</p>';
+    }
+
+    if(!$('#txtDateOfBirth').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Date of Birth is Blank.</p>';
+    }
+
+    if(blnError == true){
         Swal.fire({
             icon: 'error',
             title: 'Missing Data',
             html: strErrorMessage
-          })
-    }else{//Continue Editing from Here
-        /*
+        })
+    }/*else{//Continue Editing from Here
+        
             do not do this in production, this is unprotected API
-        */
+        
         var objNewSessionPromise= $.post('insert create account endpoint', { strUsername:$('#txtEmail').val(), strPassword:$('#txtPassword').val() }, function(result){
             //console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
@@ -60,8 +78,13 @@ $(document).on('click','#btnNewAccount', function(){
                 window.location.href='login.html'; //window.location.replace removes from history
             }
         })
-    }
+    }*/
 })
+
+$(document).on('click','#btnBackToLogin', function(){
+    window.location.href = 'login.html';
+})
+
 
 $(document).on('click','#btnAddCharacter', function(){
     let strSesID= sessionStorage.getItem('CharacterSession');
