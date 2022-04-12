@@ -7,65 +7,82 @@
     <title>Character Database</title>
     <link rel="stylesheet" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" href="css/lib/main.css">
-    <script src="js/qrcode.js"></script>
-
+    
 </head>
+
 <body style="background-image: url(./images/coffeebean.jpg)">
-    <div class="container offeset-md-2">
-        <div class="row">
-            <div class="card col-12 col-md-8 offset-md-2 mt-3" id="divUserInfo">
-                <div class="card-header">
-                    <h3>Member Information</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row col-12">
-                        <h4 class="col-4">First Name: <span id="spFirstName"></span></h4>
-                        <h4 class="col-4">Last Name: <span id="spLastName"></span></h4>
+    
+    <div class="container">
+        
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-block" id="btnSignOut">
+                Sign Out
+            </button>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="card col-12 col-md-8 offset-md-2 mt-3" id="divUserInfo">
+                    <div class="card-header">
+                        <h3>Member Information</h3>
                     </div>
-                    <div class="row col-12">
-                        <h4 class="col-4">Member ID: <span id="spUsername"></span></h4>
-                    </div>
-                    <div class="div"> QR Code 
+                    <div class="card-body">
+                        <div class="row col-12">
+                            <h5 class="col-4">First Name: <span id="spFirstName"></span></h5>
+                            <h5 class="col-4">Last Name: <span id="spLastName"></span></h5>
+                        </div>
+                        <div class="row col-12">
+                            <h5 class="col-4">Membership QR: <span id="spUsername"></span></h5>
+                            <div id="qrcode"></div>
+                                <script type="text/javascript">
+                                    new QRCode(document.getElementById("qrcode"), . . .);
+                                </script><!-- maybe we have to use the endpoint for the customer's session ID?-->
+                        </div>
                         
+                        <div class="d-flex justify-content-end" aria label="Update Information">
+                            <button class="btn" id="btnUpdateInformation"> Update Information </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="card col-12 col-md-8 offset-md-2 mt-3" id="divUserInfo">
-                <div class="card-header">
-                    <h3>Update Member Information</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row col-12">
-                        <!--<h4 class="col-4">First Name: <input id="txtFirstName" type="email" class="form-control mt-5 border border-primary rounded-pill shadow p-3" aria-label="Update First Name" placeholder="Xen"></h4>
+            <div class="row" style="display:none;" id="divUpdateInfo">
+                <div class="card col-12 col-md-8 offset-md-2 mt-3">
+                    <div class="card-header">
+                        <h3>Update Member Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row col-12">
+                            <!--<h4 class="col-4">First Name: <input id="txtFirstName" type="email" class="form-control mt-5 border border-primary rounded-pill shadow p-3" aria-label="Update First Name" placeholder="Xen"></h4>
 
-                        <h4 class="col-4">Last Name: <input id="txtUsername" type="email" class="form-control mt-5 border border-primary rounded-pill shadow p-3" aria-label="Update Last Name" placeholder="Doe"></h4>-->
+                            <h4 class="col-4">Last Name: <input id="txtUsername" type="email" class="form-control mt-5 border border-primary rounded-pill shadow p-3" aria-label="Update Last Name" placeholder="Doe"></h4>-->
 
-                        <h4 class="col-4"> New Address: <input id="#txtAddress" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Address" placeholder="Address"></h4>
+                            <h5 class="col-4"> New Address: <input id="#txtAddress" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Address" placeholder="Address"></h5>
 
-                        <h4 class="col-4"> New Phone Number: <input id="#txtPhoneNumber" type="tel" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Phone Number" placeholder="Phone Number" ></h4>
+                            <h5 class="col-4"> New Phone Number: <input id="#txtPhoneNumber" type="tel" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Phone Number" placeholder="Phone Number" ></h5>
+                        </div>
+                        <div class="d-flex justify-content-end" aria label="Submit Update">
+                            <button class="btn" id="btnSubmitUpdate"> Update </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="card col-12 col-md-8 offset-md-2 mt-3">
-                <div class="card-header">
-                    <div class="row col-12">
-                        <h3 class="col-4">Purchase History</h3>
-                        <button class="btn btn-primary col-2 offset-6 float-right" id="btnToggleExisting">Toggle History</button>
+            <div class="row">
+                <div class="card col-12 col-md-8 offset-md-2 mt-3">
+                    <div class="card-header d-flex justify-content-center">
+                        <div class="row col-12">
+                            <h3 class="col-9">Purchase History</h3>
+                            <button class="btn col-2 offset-1 float-right" id="btnToggleExisting">Toggle History</button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body" id="divCharacters" style="display:none;">
-                    <table class="table" id="tblCharacters">
-                        <thead>
-                            <tr><th>Character Name</th><th>Super Power</th><th>Location</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                
-                        </tbody>
-                    </table>
+                    <div class="card-body" id="divCharacters" style="display:none;">
+                        <table class="table" id="tblCharacters">
+                            <thead>
+                                <tr><th>Field 1</th><th>Field 2</th><th>Field 3</th><th>Field 4</th></tr>
+                            </thead>
+                            <tbody>
+                    
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,6 +113,7 @@
 
     <script src="js/lib/jquery-3.6.0.min.js"></script>
     <script src="js/lib/bootstrap.bundle.min.js"></script>
+    <script src="js/qrcode.js"></script>
     <script src="js/lib/sweetalert.js"></script>
     <script src="js/app.js"></script>
 </body>

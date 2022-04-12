@@ -4,11 +4,11 @@ $(document).on('click','#btnNewAccount', function(){
 
     if(!$('#txtEmail').val()){
         blnError=true;
-        strErrorMessage+= '<p>Email/Username is Blank.</p>';
+        strErrorMessage+= '<p>Email is Blank.</p>';
     }else if(!isValidEmail($('#txtEmail').val())){
         
         blnError=true;
-        strErrorMessage+='<p>Email/Username is not valid</p>';
+        strErrorMessage+='<p>Email is not valid</p>';
     }
 
     if(!doPasswordsMatch($('#txtPassword').val(),$('#txtVerifyPassword').val())){
@@ -184,8 +184,37 @@ $(document).on('click','#btnLogin', function(){
     }
 })
 
+$(document).on('click','#btnSignOut', function(){
+    let blnError = false;
+    let strErrorMessage = '';
+    
+    window.location.href='login.html';
+        /*$.post('https://www.swollenhippo.com/DS3870/Comics/createSession.php',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        objResult = JSON.parse(result); 
+        
+        if(objResult.Outcome != 'Login Failed'){
+                // set your Session Storage Item here
+                sessionStorage.setItem('CharacterSession', objResult.Outcome);
+                // then redirect the user to the dashboard
+                window.location.href='index.html';
+                fillCharacterTable();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    html: '<p>The provided username and password did not match any in our database</p>'
+                })
+            }
+        }) */
+    
+})
+
 $(document).on('click','#btnToggleExisting', function(){
     $('#divCharacters').slideToggle();
+})
+
+$(document).on('click','#btnUpdateInformation', function(){
+    $('#divUpdateInfo').slideToggle();
 })
 
 
