@@ -240,7 +240,7 @@ $(document).on('click','#btnSignOut', function(){
 })
 
 $(document).on('click','#btnToggleExisting', function(){
-    $('#divCharacters').slideToggle();
+    $('#divPurchaseHistroy').slideToggle();
 })
 
 $(document).on('click','#btnUpdateInformation', function(){
@@ -263,8 +263,8 @@ function clearCharacterFields(){
     $('#selectStatus').val('Active').trigger('change');
 }
 
-function fillCharacterTable(){
-    $('#tblCharacters tbody').empty();
+function fillPurchaseHistoryTable(){
+    $('#tblPurchaseHistory tbody').empty();
     let strCurrentSessionID = sessionStorage.getItem('CharacterSession');
     $.getJSON('https://www.swollenhippo.com/DS3870/Comics/getCharacters.php',{strSessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,superhero){
