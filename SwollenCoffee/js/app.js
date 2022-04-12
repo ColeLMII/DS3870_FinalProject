@@ -218,6 +218,25 @@ $(document).on('click','#btnToggleExisting', function(){
     $('#divCharacters').slideToggle();
 })
 
+$(document).on('click','#logout',function(){
+    /*let strSessionID = sessionStorage.getItem('HippoTaskID');
+    $.post('https://www.swollenhippo.com/DS3870/Tasks/killSession.php',{strSessionID: strSessionID}, function(result){//Post the sessionID to killSession.php, which will log the user out
+        let objResult = JSON.parse(result);*/
+        if(objResult.Outcome == 'User Session Ended'){
+            swal.fire({
+                icon: 'question',
+                title: 'Log Out?',
+                html: '<p>Are you sure you want to log out?',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                showConfirmButton: true,
+                confirmButtonText: 'Yes',
+            })
+            sessionStorage.removeItem('HippoTaskID');//Remove HippoTaskID session, ending session and loggin user out. User cannot go back after being directed to login screen
+            window.location.href = 'login.html';
+        }
+    //})
+})
 
 function clearCreateAccountPage(){
     $('#txtFirstName').val('');
