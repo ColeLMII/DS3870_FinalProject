@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="css/lib/main.css">
     
 </head>
+
 <body style="background-image: url(./images/coffeebean.jpg)">
+    
     <div class="container">
+        
         <div class="d-flex justify-content-end">
             <button class="btn btn-block" id="btnSignOut">
                 Sign Out
@@ -28,12 +31,13 @@
                             <h5 class="col-4">Last Name: <span id="spLastName"></span></h5>
                         </div>
                         <div class="row col-12">
-                            <h5 class="col-4">Member ID: <span id="spUsername"></span></h5>
+                            <h5 class="col-4">Membership QR: <span id="spUsername"></span></h5>
+                            <div id="qrcode"></div>
+                                <script type="text/javascript">
+                                    new QRCode(document.getElementById("qrcode"), . . .);
+                                </script><!-- maybe we have to use the endpoint for the customer's session ID?-->
                         </div>
-                        <div id="qrcode"></div>
-                        <script type="text/javascript">
-                            new QRCode(document.getElementById("qrcode"), ...);
-                        </script>
+                        
                         <div class="d-flex justify-content-end" aria label="Update Information">
                             <button class="btn" id="btnUpdateInformation"> Update Information </button>
                         </div>
@@ -72,7 +76,7 @@
                     <div class="card-body" id="divCharacters" style="display:none;">
                         <table class="table" id="tblCharacters">
                             <thead>
-                                <tr><th>Character Name</th><th>Super Power</th><th>Location</th><th>Status</th></tr>
+                                <tr><th>Field 1</th><th>Field 2</th><th>Field 3</th><th>Field 4</th></tr>
                             </thead>
                             <tbody>
                     
