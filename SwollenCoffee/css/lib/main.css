@@ -17,13 +17,9 @@ body{
 }
 
 .btn{
-    /*width:100%;
-    padding: 1rem 2rem;*/
+    color:#ffffff;
     font-weight: bold;
-    font-size: 1.1rem;
-    color:#538089;
     border: none;
-    border-radius: var(--border-radius);
     outline: none;
     cursor:pointer;
     background: var(--color-primary);
