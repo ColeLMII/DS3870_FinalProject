@@ -6,41 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swollen Coffee - Create Account</title>
     <link rel="stylesheet" href="css/lib/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="css/lib/main.css">-->
+    <link rel="stylesheet" href="css/lib/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body class="container-fluid vh-100">
-    <div class="row" >
-        <div class="bg-danger vh-50" >
-            <div class="col-8 offset-2 my-3">
-                <h2 class="col-12 text-primary text-center bg-white my-3 border border-primary rounded-pill shadow p-3" >Please Enter a Username and Password</h2>
-                <div class="col-8 offset-2 rounded-pill bg-warning mt-3 border border-primary shadow p-1" style="display: flex; justify-content: center; align-items: center;">
-                    <img src="images/coffee_bean.png" alt="logo" height="200" width="150">
-                </div>
-            </div>
-        </div>
-    </div>
-        <div class="row">
-            <div class="col-8 offset-2">
-                <input id="txtUsername" type="email" class="form-control mt-5 border border-primary rounded-pill shadow p-3" aria-label="Enter Username" placeholder="user@email.com">
-                <input id="txtPassword" type="password" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Enter Password" placeholder="Password">
-                <input id="#txtVerifyPassword" type="password" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Re-enter Password" placeholder="Re-enter Password">
-                <input id="#txtFirstName" type="firstName" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Enter First Name" placeholder="First Name">
-                <input id="#txtLastName" type="lastName" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Enter Last Name" placeholder="Last Name">
-                <input id="#txtAddress" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Address" placeholder="Address">
-                <input id="#txtPhoneNumber" type="tel" pattern="[0-9-() ]*" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Phone Number" placeholder="Phone Number">
-                <input id="#txtDateOfBirth" type="date" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Date of Birth" placeholder="Date of Birth">
-            </div>
-            
-            <div class="justify-content-center d-flex">
-                <button id="btnNewAccount" class="btn btn-warning btn-success my-3 border border-primary rounded-pill shadow p-3 bg-body" type="button">Create Account</button>
-                &nbsp;
-                <button id="btnBackToLogin" class="btn btn-warning my-3 border border-primary rounded-pill shadow p-3 bg-body" type="button" >Return to Login</button>
-            </div> 
-             
+<body class="container-fluid vh-100" style="background-image: url(./images/coffeebean.jpg);">
+    <div class="md-5 justify-content-center">
+        <h1 class="col-12 text-center text-white mt-5 animate__animated animate__fadeInDownBig">Please Enter a Username and Password</h2>
+        <input id="txtEmal" type="email" class="form-control mt-5 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Enter Username" placeholder="user@email.com">
+        <input id="txtPassword" type="password" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Enter Password" placeholder="Password">
+        <input id="#txtVerifyPassword" type="password" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Re-enter Password" placeholder="Re-enter Password">
+        <input id="#txtFirstName" type="firstName" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Enter First Name" placeholder="First Name">
+        <input id="#txtLastName" type="lastName" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Enter Last Name" placeholder="Last Name">
+        <input id="#txtAddress" type="address" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Address" placeholder="Address">
+        <input id="#txtPhoneNumber" type="tel" pattern="[0-9-() ]*" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Phone Number" placeholder="123-456-7890">
+        <input id="#txtDateOfBirth" type="date" class="form-control mt-3 border border-primary rounded-pill animate__animated animate__fadeInDownBig" aria-label="Date of Birth" placeholder="Date of Birth">
+        <div class="justify-content-center d-flex animate__animated animate__fadeInDownBig">
+            <button id="btnNewAccount" class="btn my-3 rounded" style="background-color:rgb(52, 174, 0);" type="button">Create Account</button>
+            &nbsp;
+            <button id="btnBackToLogin" class="btn my-3 rounded" style="background-color:rgb(255, 204, 0);" type="button" >Return to Login</button>
         </div>  
     </div>
     <script src="js/lib/jquery-3.6.0.min.js"></script>
-    <!--<script src="js/lib/bootstrap.bundle.min.js"></script>-->
+    <script src="js/lib/bootstrap.bundle.min.js"></script>
     <script src="js/lib/sweetalert.js"></script>
     <script src="js/app.js"></script>
 </body>

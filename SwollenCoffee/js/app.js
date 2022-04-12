@@ -1,24 +1,20 @@
-// Begin Page Specific Functions
-
 $(document).on('click','#btnNewAccount', function(){
     let strErrorMessage='';
     let blnError = false;
 
     if(!$('#txtEmail').val()){
         blnError=true;
-        strErrorMessage+= '<p>Email/Username is Blank.</p>';
+        strErrorMessage+= '<p>Email is Blank.</p>';
     }else if(!isValidEmail($('#txtEmail').val())){
         
         blnError=true;
-        strErrorMessage+='<p>Email/Username is not valid</p>';
+        strErrorMessage+='<p>Email is not valid</p>';
     }
 
     if(!doPasswordsMatch($('#txtPassword').val(),$('#txtVerifyPassword').val())){
         blnError=true;
         strErrorMessage+='<p>Passwords do not match</p>';
     }
-        
-    
 
     if(!$('#txtPassword').val()){
         blnError=true;
@@ -29,17 +25,72 @@ $(document).on('click','#btnNewAccount', function(){
         strErrorMessage+='<p>Password is not valid</p>';
     }
 
-    if(blnError == 1){
+    if(!$('#txtFirstName').val()){
+        blnError=true;
+        strErrorMessage+= '<p>First Name is Blank.</p>';
+    }
+
+    if(!$('#txtLastName').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Last Name is Blank.</p>';
+    }
+
+    if(!$('#txtAddress').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Address is Blank.</p>';
+    }
+
+    if(!$('#txtPhoneNumber').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Phone Number is Blank.</p>';
+    }
+
+    if(!$('#txtDateOfBirth').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Date of Birth is Blank.</p>';
+    }
+
+    if(blnError == true){
         Swal.fire({
             icon: 'error',
             title: 'Missing Data',
-            html: strErrorMessage
-          })
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            }
+        })
+        /*Swal.fire({
+            icon: 'error',
+            title: 'Missing Data',
+            position: 'top',
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                animate__animated
+                animate__fadeOutUp
+                animate__faster
+                `
+            },
+            grow: 'row',
+            showConfirmButton: false,
+            showCloseButton: true
+            })*/
     }else{//Continue Editing from Here
-        /*
-            do not do this in production, this is unprotected API
-        */
-        var objNewSessionPromise= $.post('insert create account endpoint', { strUsername:$('#txtEmail').val(), strPassword:$('#txtPassword').val() }, function(result){
+        
+            //do not do this in production, this is unprotected API
+        
+        /*var objNewSessionPromise= $.post('insert create account endpoint', { strUsername:$('#txtEmail').val(), strPassword:$('#txtPassword').val() }, function(result){
             //console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 
@@ -56,9 +107,14 @@ $(document).on('click','#btnNewAccount', function(){
                 console.log(objNewSessionPromise);
                 window.location.href='login.html'; //window.location.replace removes from history
             }
-        })
+        })*/
     }
 })
+
+$(document).on('click','#btnBackToLogin', function(){
+    window.location.href = 'login.html';
+})
+
 
 $(document).on('click','#btnAddCharacter', function(){
     let strSesID= sessionStorage.getItem('CharacterSession');
@@ -115,11 +171,28 @@ $(document).on('click','#btnLogin', function(){
         strErrorMessage += '<p>Please provide your password to continue</p>';
     }
     if(blnError == true){
+        /*icon: 'error',
+            title: 'Missing Data',
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            }*/
         Swal.fire({
             icon: 'error',
             title: 'Missing Data',
-            html: strErrorMessage
-        }) 
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            }
+        })
     } else{
         $.post('https://www.swollenhippo.com/DS3870/Comics/createSession.php',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
