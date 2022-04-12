@@ -54,13 +54,43 @@ $(document).on('click','#btnNewAccount', function(){
         Swal.fire({
             icon: 'error',
             title: 'Missing Data',
-            html: strErrorMessage
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            }
         })
-    }/*else{//Continue Editing from Here
+        /*Swal.fire({
+            icon: 'error',
+            title: 'Missing Data',
+            position: 'top',
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                animate__animated
+                animate__fadeOutUp
+                animate__faster
+                `
+            },
+            grow: 'row',
+            showConfirmButton: false,
+            showCloseButton: true
+            })*/
+    }else{//Continue Editing from Here
         
-            do not do this in production, this is unprotected API
+            //do not do this in production, this is unprotected API
         
-        var objNewSessionPromise= $.post('insert create account endpoint', { strUsername:$('#txtEmail').val(), strPassword:$('#txtPassword').val() }, function(result){
+        /*var objNewSessionPromise= $.post('insert create account endpoint', { strUsername:$('#txtEmail').val(), strPassword:$('#txtPassword').val() }, function(result){
             //console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 
@@ -77,8 +107,8 @@ $(document).on('click','#btnNewAccount', function(){
                 console.log(objNewSessionPromise);
                 window.location.href='login.html'; //window.location.replace removes from history
             }
-        })
-    }*/
+        })*/
+    }
 })
 
 $(document).on('click','#btnBackToLogin', function(){
@@ -141,11 +171,28 @@ $(document).on('click','#btnLogin', function(){
         strErrorMessage += '<p>Please provide your password to continue</p>';
     }
     if(blnError == true){
+        /*icon: 'error',
+            title: 'Missing Data',
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            }*/
         Swal.fire({
             icon: 'error',
             title: 'Missing Data',
-            html: strErrorMessage
-        }) 
+            html: strErrorMessage,
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInDown
+                animate__faster
+                `
+            }
+        })
     } else{
         $.post('https://www.swollenhippo.com/DS3870/Comics/createSession.php',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
