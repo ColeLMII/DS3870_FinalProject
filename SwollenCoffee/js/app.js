@@ -54,38 +54,8 @@ $(document).on('click','#btnNewAccount', function(){
         Swal.fire({
             icon: 'error',
             title: 'Missing Data',
-            html: strErrorMessage,
-            showClass: {
-                popup: `
-                animate__animated
-                animate__fadeInDown
-                animate__faster
-                `
-            }
+            html: strErrorMessage
         })
-        /*Swal.fire({
-            icon: 'error',
-            title: 'Missing Data',
-            position: 'top',
-            html: strErrorMessage,
-            showClass: {
-                popup: `
-                animate__animated
-                animate__fadeInDown
-                animate__faster
-                `
-            },
-            hideClass: {
-                popup: `
-                animate__animated
-                animate__fadeOutUp
-                animate__faster
-                `
-            },
-            grow: 'row',
-            showConfirmButton: false,
-            showCloseButton: true
-            })*/
     }else{//Continue Editing from Here
         
             //do not do this in production, this is unprotected API
