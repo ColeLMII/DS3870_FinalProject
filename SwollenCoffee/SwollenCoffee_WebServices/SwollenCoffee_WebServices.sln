@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwollenCoffee_WebServices", "SwollenCoffee_WebServices.csproj", "{79A46685-D2F3-4AED-91A2-3C8C25A8B4EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79A46685-D2F3-4AED-91A2-3C8C25A8B4EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A46685-D2F3-4AED-91A2-3C8C25A8B4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A46685-D2F3-4AED-91A2-3C8C25A8B4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A46685-D2F3-4AED-91A2-3C8C25A8B4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3A42D9A-B6CF-49DA-A4DC-0945CEBE1B85}
+	EndGlobalSection
+EndGlobal
