@@ -217,6 +217,26 @@ $(document).on('click','#btnUpdateInformation', function(){
     $('#divUpdateInfo').slideToggle();
 })
 
+$(document).on('click', '#btnSubmitUpdate', function(){
+    let strErrorMessage='';
+    let blnError = false;
+
+    if(!$('#txtAddress').val()){
+        blnError = true;
+        strErrorMessage += '<p>Address is empty.</p>';
+    }
+    if(!$('#txtPhoneNumber').val()){
+        blnError = true;
+        strErrorMessage += '<p>Phone number is empty.</p>';
+    }
+    if(blnError == true){
+        Swal.fire({
+            icon: 'warning',
+            title: 'Unable to Update',
+            html: strErrorMessage
+        })
+    }
+})
 
 function clearCreateAccountPage(){
     $('#txtFirstName').val('');
