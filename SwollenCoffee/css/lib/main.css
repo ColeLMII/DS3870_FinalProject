@@ -1,5 +1,5 @@
 body{
-    --color-primary: #538083;
+    --color-primary: #ffd791;
     --color-primary-dark: #538089;
     --color-secondary: #2A7F62;
     --color-error: #cc3333;
@@ -25,3 +25,4 @@ body{
     background: var(--color-primary);
 
 }
+

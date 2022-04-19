@@ -186,6 +186,7 @@ $(document).on('click','#btnAddCharacter', function(){
     })
 })
 
+//start for index.html
 $(document).on('click','#btnSignOut', function(){
     let blnError = false;
     let strErrorMessage = '';
@@ -219,18 +220,16 @@ $(document).on('click','#btnUpdateInformation', function(){
     $('#divUpdateInfo').slideToggle();
 })
 
-$(document).on('click', '#btnSubmitUpdate', function(){
+//for updating customer information
+$(document).on('click', '#btnSubmitEmail', function(){
     let strErrorMessage='';
     let blnError = false;
 
-    if(!$('#txtAddress').val()){
+    if(!$('#txtNewEmail').val()){
         blnError = true;
-        strErrorMessage += '<p>Address is empty.</p>';
+        strErrorMessage += '<p> New Email Address is empty.</p>';
     }
-    if(!$('#txtPhoneNumber').val()){
-        blnError = true;
-        strErrorMessage += '<p>Phone number is empty.</p>';
-    }
+    
     if(blnError == true){
         Swal.fire({
             icon: 'warning',
@@ -239,6 +238,8 @@ $(document).on('click', '#btnSubmitUpdate', function(){
         })
     }
 })
+
+//end of updating customer information
 
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
@@ -250,6 +251,8 @@ function fillPurchaseHistoryTable(){
         })
     })
 }
+//end for index.html
+
 
 // End Page Specific Functions
 
