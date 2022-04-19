@@ -22,7 +22,7 @@ namespace SwollenCoffee_WebServices
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
-
+            string strTaskConnection = 
             if (req.Method == HttpMethods.Get)
             {
                 try

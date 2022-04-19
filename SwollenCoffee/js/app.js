@@ -218,6 +218,8 @@ $(document).on('click','#btnToggleExisting', function(){
 
 $(document).on('click','#btnUpdateInformation', function(){
     $('#divUpdateInfo').slideToggle();
+
+    $.getJSON('http://localhost:7071/')
 })
 
 //for updating customer information
