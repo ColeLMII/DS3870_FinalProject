@@ -7,6 +7,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 
 namespace SwollenCoffee_WebServices
 {
@@ -21,15 +23,52 @@ namespace SwollenCoffee_WebServices
 
             string name = req.Query["name"];
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+            if (req.Method == HttpMethods.Get)
+            {
+                try
+                {
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+                }
+                catch (Exception ex)
+                {
+                    return new OkObjectResult(ex);
+                }
+            }
+            else if (req.Method == HttpMethods.Post)
+            {
+                try
+                {
 
-            return new OkObjectResult(responseMessage);
+                }
+                catch (Exception ex)
+                {
+                    return new OkObjectResult(ex);
+                }
+            }
+            else if (req.Method == HttpMethods.Put)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    return new OkObjectResult(ex);
+                }
+            } else if (req.Method == HttpMethods.Delete)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    return new OkObjectResult(ex);
+                }
+            }
+
+
+            return new OkObjectResult("404: Error");
         }
     }
 }
