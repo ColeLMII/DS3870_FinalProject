@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+//Return array of locations and associated info (GET)
 namespace FINAL_Azure
 {
     public static class location

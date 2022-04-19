@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+//Create purchase, return PurchaseID or error message (POST)
+//Return array of purchases when provided sessionID (GET)
 namespace FINAL_Azure
 {
     public static class purchases
