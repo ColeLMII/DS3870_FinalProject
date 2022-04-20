@@ -101,12 +101,9 @@ $(document).on('click','#btnNewAccount', function(){
             title: 'Missing Data',
             html: strErrorMessage
         })
-    }//else{Continue Editing from Here
-        
-        //do not do this in production, this is unprotected API
-        
-        /*var objNewSessionPromise= $.post('insert create account endpoint', { strUsername:$('#txtEmail').val(), strPassword:$('#txtPassword').val() }, function(result){
-            //console.log(JSON.parse(result).Outcome);
+    }else{
+        var objNewSessionPromise= $.post('insert create account endpoint', { strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strStreetOne:$('').val(), strStreetTwo:$('').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
+            console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 
 
@@ -118,7 +115,7 @@ $(document).on('click','#btnNewAccount', function(){
                     html: '<p> Review Username and Password </p>'
                 })
             } else{ 
-                sessionStorage.setItem('SwolllenCoffeeID', objNewSessionPromise.Outcome);
+                sessionStorage.setItem('MembershipID', objNewSessionPromise.Outcome);
                 console.log(objNewSessionPromise);
                 Swal.fire({
                     icon: 'success',
@@ -247,14 +244,18 @@ $(document).on('click','#dropdownPrefLocation', function(){
         foreach()
     })
 })
+
+$(document).on('click','#btnViewHistory',function(){
+
+})
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
-    let strCurrentSessionID = sessionStorage.getItem('CharacterSession');
-    $.getJSON('https://www.swollenhippo.com/DS3870/Comics/getCharacters.php',{strSessionID:strCurrentSessionID},function(result){
-        $.each(result,function(i,superhero){
-            let strTableHTML = '<tr><td>' + superhero.Name + '</td><td>' + superhero.SuperPower + '</td><td>' + superhero.Location + '</td><td>' + superhero.Status + '</td></tr>';
+    let strCurrentSessionID = sessionStorage.getItem('membershipID');
+    $.getJSON('http://localhost:7071/api/location?',{strSessionID:strCurrentSessionID},function(result){
+        $.each(result,function(i,transaction){
+            let strTableHTML = '<tr><td>' + transaction.TransactionID + '</td></tr>';
             $('#tblCharacters tbody').append(strTableHTML);
         })
     })

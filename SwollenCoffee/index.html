@@ -22,9 +22,9 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="card col-12 col-md-8 offset-md-2 mt-2" id="divUserInfo">
+                <div class="card col-12 col-md-8 offset-md-2 mt-2" style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);"id="divUserInfo">
                     <div class="card-header d-flex justify-content-center">
-                        <h3>Swollen Coffee Member</h3>
+                        <h3 style="color:bisque;">Swollen Coffee Member</h3>
                     </div>
                     <div class="card-body">
                         <div class="row col-12">
@@ -34,7 +34,7 @@
                             <h5 class="col-3 fs-6">Last Name: <span id="spLastName"></span></h5>
                         </div>
                         <div class="row col-12">
-                            <h5 class="d-flex justify-content-center fs-5">Membership QR: <span id="spUsername"></span></h5>
+                            <h5 class="d-flex justify-content-center fs-5" style="color:bisque;">Membership QR: <span id="spUsername"></span></h5>
                             <!-- maybe we have to use the endpoint for the customer's session ID?-->
                         </div>
                         <row class="col-12 d-flex justify-content-center">
@@ -45,35 +45,35 @@
                         </row>
                         
                         <div class="d-flex justify-content-end my-2" aria label="Update Information">
-                            <button class="btn" id="btnUpdateInformation"> Update Information </button>
+                            <button class="btn" id="btnUpdateInformation" > Update Information </button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" style="display:none;" id="divUpdateInfo">
-                <div class="card col-12 col-md-8 offset-md-2 mt-3" >
+                <div class="card col-12 col-md-8 offset-md-2 mt-3"  style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);">
                     <div class="card-header">
-                        <h3>Update Your Information</h3>
+                        <h3 style="color:bisque;">Update Your Information</h3>
                     </div>
                     <div class="card-body">
                         <div class="row col-12">
                             <row>
-                                <h6 class="col-12"> Email Address: 
+                                <h6 class="col-12" style="color:bisque;"> Email Address: 
                                     <input id="txtAddress" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Email Address" placeholder="Address">
                                 </h6>
-                                <h6 class="col-12"> Street One: 
+                                <h6 class="col-12" style="color:bisque;"> Street One: 
                                     <input id="txtStreet1" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Street One" placeholder="Street One">
                                 </h6>
-                                <h6 class="col-12"> Street Two: 
+                                <h6 class="col-12" style="color:bisque;"> Street Two: 
                                     <input id="txtStreet2" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Street Two" placeholder="Street One">
                                 </h6>
-                                <h6 class="col-12"> City: 
+                                <h6 class="col-12" style="color:bisque;"> City: 
                                     <input id="txtStreet1" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update City" placeholder="City">
                                 </h6>
-                                <h6 class="col-12"> State: 
+                                <h6 class="col-12" style="color:bisque;"> State: 
                                     <input id="txtState" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update State" placeholder="State">
                                 </h6>
-                                <h6 class="col-12"> Preferred Location: 
+                                <h6 class="col-12" style="color:bisque;"> Preferred Location: 
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownPrefLocation" data-bs-toggle="dropdown" aria-expanded="false">
                                           Location Preference
@@ -95,17 +95,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card col-12 col-md-8 offset-md-2 mt-3">
+                <div class="card col-12 col-md-8 offset-md-2 mt-3" style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);">
                     <div class="card-header d-flex justify-content-center" >
                         <div class="row">
-                            <h3 class="col-9 my-4 d-flex justify-content-center">Purchase History</h3>
-                                <button class="btn col-3 my-1 float-right d-flex justify-content-end" id="btnToggleExisting">View History</button>
+                            <h3 class="col-9 my-4 d-flex justify-content-center" style="color:bisque;">Purchase History</h3>
+                                <button class="btn col-3 my-1 float-right d-flex justify-content-end" id="btnViewHistory">View History</button>
                         </div>
                     </div>
                     <div class="card-body" id="divPurchaseHistroy" style="display:none;">
                         <table class="table" id="tblPurchaseHistory">
                             <thead>
-                                <tr><th class="fs-6">Transaction ID</th><th class="fs-6">Location</th><th class="fs-6">Date</th><th class="fs-6">Total</th></tr>
+                                <tr><th class="fs-5 d-flex justify-content-center" style="color:bisque;">Transaction ID</th></tr>
                             </thead>
                             <tbody>
                     

@@ -25,7 +25,6 @@ namespace SQLIntegration
             log.LogInformation("C# HTTP trigger function processed a request for " + strFunction);
 
             string strTasksConnectionString = @"Server=PCLABSQL01\COB_DS2,1436;Database=SwollenCoffee;User Id=student;Password=Mickey2020!;";
-            string sessionID = req.Query["sessionID"];
 
             if (strFunction == "membership")
             {
@@ -36,10 +35,16 @@ namespace SQLIntegration
 
                     //Variable info comes from the Query Parameters in the URL
                     //ie http://localhost:7071/swollenCoffee?function=membership&Email=bburchfield@tntech.edu
-                    string strEmail = req.Query["Email"];
+                    string strSessionID = req.Query["strSessionID"];
 
                     string strQuery = "SELECT * FROM dbo.tblCustomers WHERE Email = @Email";
                     // Put your using 
+                    using (SqlConnection conTasks = new SqlConnection(strTasksConnectionString))
+                    using (SqlCommand comTasks = new SqlCommand(strQuery, conTasks))
+                    {
+                       
+                        return new OkObjectResult(dsLocations);
+                    }
                 }
                 if (req.Method == HttpMethods.Post)
                 {
