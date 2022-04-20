@@ -102,7 +102,7 @@ $(document).on('click','#btnNewAccount', function(){
             html: strErrorMessage
         })
     }else{
-        var objNewSessionPromise= $.post('insert create account endpoint', { strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strStreetOne:$('').val(), strStreetTwo:$('').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
+        var objNewSessionPromise= $.post('insert create account endpoint', { strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress:$('txtAddress').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
             console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 

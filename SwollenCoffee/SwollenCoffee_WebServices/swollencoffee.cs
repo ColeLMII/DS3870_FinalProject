@@ -50,9 +50,16 @@ namespace SQLIntegration
                 {
                     //Variable info comes from the Query Parameters in the URL
                     //ie http://localhost:7071/swollenCoffee?function=membership&Firstname=Ben
-                    string strFirstName = req.Query["Firstname"];
-                    string strLastName = req.Query["Lastname"];
+                    string strEmail = req.Query["strEmail"];
+                    string strFirstName = req.Query["strFirstName"];
+                    string strLastName = req.Query["strLastName"];
                     string strMembershipID = Guid.NewGuid().ToString();
+                    string strPassword = req.Query["strPassword"];
+                    string strAddress = req.Query["strAddress"];
+                    //string strStreetTwo = req.Query["strStreetTwo"];
+                    string strPhoneNumber = req.Query["strPhoneNumber"];
+                    string strDateOfBirth = req.Query["strDateOfBirth"];
+
                 }
                 if (req.Method == HttpMethods.Put)
                 {
