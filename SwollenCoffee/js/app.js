@@ -71,7 +71,6 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+= '<p>Password is Blank.</p>';
     }else if(!isValidPassword($('#txtPassword').val())){
-        
         blnError=true;
         strErrorMessage+='<p>Password is not valid</p>';
     }
@@ -83,9 +82,13 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+= '<p>Last Name is Blank.</p>';
     }
-    if(!$('#txtAddress').val()){
+    if(!$('#txtAddress1').val()){
         blnError=true;
-        strErrorMessage+= '<p>Address is Blank.</p>';
+        strErrorMessage+= '<p>Address 1 is Blank.</p>';
+    }
+    if(!$('#txtAddress2').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Address 2 is Blank.</p>';
     }
     if(!$('#txtPhoneNumber').val()){
         blnError=true;
@@ -132,7 +135,7 @@ $(document).on('click','#btnNewAccount', function(){
                 window.location.href='login.html'; //window.location.replace removes from history
             }
         })
-    }*/
+    }
 })
 
 $(document).on('click','#btnBackToLogin', function(){
