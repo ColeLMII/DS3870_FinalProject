@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace SwollenCoffee_WebServices
 {
