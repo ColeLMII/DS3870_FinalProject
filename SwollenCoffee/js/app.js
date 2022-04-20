@@ -219,7 +219,7 @@ $(document).on('click','#btnToggleExisting', function(){
 $(document).on('click','#btnUpdateInformation', function(){
     $('#divUpdateInfo').slideToggle();
 
-    $.getJSON('http://localhost:7071/')
+    //$.getJSON('http://localhost:7071/')
 })
 
 //for updating customer information
@@ -243,25 +243,40 @@ $(document).on('click', '#btnSubmitEmail', function(){
 
 $(document).on('click','#dropdownPrefLocation', function(){
     let strCurrentSessionID = sessionStorage.getItem('membershipID');
-    $.getJSON('http://localhost:7071/api/location?',{}, function(result){
-        foreach()
+    $.getJSON('http://localhost:7071/api/swollencoffee?function',{strSessionID: strCurrentSessionID}, function(result){
+        console.log(result);
+        $.each(arrLocation, function(i,location){
+            console.log(location.LocationID);
+
+            let strDropDownHTML= '<li><a class="dropdown-item" href="#">' + location.LocationID + '</a></li>';
+            $('#dropdownPrefLocation').append(strDropDownHTML);
+        })
+            
     })
 })
 
 $(document).on('click','#btnViewHistory',function(){
-
+    $('#divPurchaseHistory').slideToggle();
+    fillPurchaseHistoryTable();
 })
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
-    $('#tblPurchaseHistory tbody').empty();
+    //$('#tblPurchaseHistory tbody').empty();
+    console.log("here");
     let strCurrentSessionID = sessionStorage.getItem('membershipID');
-    $.getJSON('http://localhost:7071/api/location?',{strSessionID:strCurrentSessionID},function(result){
-        $.each(result,function(i,transaction){
-            let strTableHTML = '<tr><td>' + transaction.TransactionID + '</td></tr>';
+
+            let strTableHTML = '<tr><td> <button type="button" class="btn col-12"> Location </button></td></tr>';
             $('#tblCharacters tbody').append(strTableHTML);
+
+    /*$.getJSON('http://localhost:7071/api/strFunction=purchases?',{strSessionID:strCurrentSessionID},function(result){
+        $.each(result,function(i,transaction){
+            let strTableHTML = '<tr><td> <button type="button" class="btn"> '+  transaction.TransactionID+'</button></td></tr>';
+            $('#tblCharacters tbody').append(strTableHTML);
+
+
         })
-    })
+    })*/
 }
 //end for index.html
 
