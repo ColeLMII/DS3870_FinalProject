@@ -241,6 +241,12 @@ $(document).on('click', '#btnSubmitEmail', function(){
     }
 })
 
+$(document).on('click','#dropdownPrefLocation', function(){
+    let strCurrentSessionID = sessionStorage.getItem('membershipID');
+    $.getJSON('http://localhost:7071/api/location?',{}, function(result){
+        foreach()
+    })
+})
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
