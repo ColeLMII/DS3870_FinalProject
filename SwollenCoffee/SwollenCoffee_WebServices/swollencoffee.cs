@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-
+using System.Data;
 
 namespace SQLIntegration
 {
@@ -59,7 +59,86 @@ namespace SQLIntegration
                     //string strStreetTwo = req.Query["strStreetTwo"];
                     string strPhoneNumber = req.Query["strPhoneNumber"];
                     string strDateOfBirth = req.Query["strDateOfBirth"];
+                    bool blnErrors = false;
+                    string strErrorMessage = "";
+                    if (strEmail.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "Email Cannot Be Blank";
+                    }
+                    if (strFirstName.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "FirstName Cannot Be Blank";
+                    }
+                    if (strLastName.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "LastName Cannot Be Blank";
+                    }
+                    if (strPassword.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "Password Cannot Be Blank";
+                    }
+                    if (strAddress.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "Address Cannot Be Blank";
+                    }
+                    if (strPhoneNumber.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "PhoneNumber Cannot Be Blank";
+                    }
+                    if (strDateOfBirth.Length < 0)
+                    {
+                        blnErrors = true;
+                        strErrorMessage += Environment.NewLine + "DateOfBirth Cannot Be Blank";
+                    }
+                    if (blnErrors == true)
+                    {
+                        return new OkObjectResult(strErrorMessage);
+                    }
 
+                    string strQuery = "INSERT INTO dbo.tblUsers (Email, FirstName, LastName, Password, Address, PhoneNumber, DateOfBirth) VALUES (@Email, @FirstName, @LastName, @Address, @PhoneNumber, @DateOfBirth, 'ACTIVE')";
+
+                    using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
+                    {
+                        SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                        parEmail.Value = strEmail;
+                        comNewUser.Parameters.Add(parEmail);
+
+                        SqlParameter parFirstname = new SqlParameter("FirstName", SqlDbType.VarChar);
+                        parFirstname.Value = strFirstName;
+                        comNewUser.Parameters.Add(parFirstname);
+
+                        SqlParameter parLastName = new SqlParameter("LastName", SqlDbType.VarChar);
+                        parLastName.Value = strLastName;
+                        comNewUser.Parameters.Add(parLastName);
+
+                        SqlParameter parPassword = new SqlParameter("Password", SqlDbType.VarChar);
+                        parPassword.Value = strPassword;
+                        comNewUser.Parameters.Add(parPassword);
+
+                        SqlParameter parAddress = new SqlParameter("Address", SqlDbType.VarChar);
+                        parAddress.Value = strAddress;
+                        comNewUser.Parameters.Add(parAddress);
+
+                        SqlParameter parPhoneNumber = new SqlParameter("PhoneNumber", SqlDbType.VarChar);
+                        parPhoneNumber.Value = strPhoneNumber;
+                        comNewUser.Parameters.Add(parPhoneNumber);
+
+                        SqlParameter parDOB = new SqlParameter("Address", SqlDbType.VarChar);
+                        parAddress.Value = strDateOfBirth;
+                        comNewUser.Parameters.Add(parDOB);
+
+                        conNewUser.Open();
+                        comNewUser.ExecuteNonQuery();
+                        conNewUser.Close();
+                        return new OkObjectResult("User Added");
+                    }
                 }
                 if (req.Method == HttpMethods.Put)
                 {
@@ -120,7 +199,33 @@ namespace SQLIntegration
             {
                 if (req.Method == HttpMethods.Get)
                 {
-
+                    string strSessionID = req.Query["SessionID"];
+                    DataSet dsPurchases = new DataSet();
+                    if (strSessionID == null || strSessionID == "")
+                    {
+                        string strQuery = "SELECT * FROM dbo.tblUsers";
+                        using (SqlConnection conPurch = new SqlConnection(strTasksConnectionString))
+                        using (SqlCommand comPurch = new SqlCommand(strQuery, conPurch))
+                        {
+                            SqlDataAdapter daUsers = new SqlDataAdapter(comPurch);
+                            daUsers.Fill(dsPurchases);
+                            return new OkObjectResult(dsPurchases.Tables[0]);
+                        }
+                    }
+                    else
+                    {
+                        string strQuery = "SELECT * FROM dbo.tblUsers WHERE Email = @Email";
+                        using (SqlConnection conPurch = new SqlConnection(str))
+                        using (SqlCommand comDS3870 = new SqlCommand(strQuery, conDS3870))
+                        {
+                            SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                            parEmail.Value = strEmail;
+                            comDS3870.Parameters.Add(parEmail);
+                            SqlDataAdapter daUsers = new SqlDataAdapter(comDS3870);
+                            daUsers.Fill(dsUsers);
+                            return new OkObjectResult(dsUsers.Tables[0]);
+                        }
+                    }
                 }
             }
             else
