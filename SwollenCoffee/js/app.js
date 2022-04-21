@@ -242,7 +242,7 @@ $(document).on('click', '#btnSubmitEmail', function(){
 })
 
 $(document).on('click','#dropdownPrefLocation', function(){
-    let strCurrentSessionID = sessionStorage.getItem('membershipID');
+    let strCurrentSessionID = sessionStorage.getItem('MembershipID');
     $.getJSON('http://localhost:7071/api/swollencoffee?function',{strSessionID: strCurrentSessionID}, function(result){
         console.log(result);
         $.each(arrLocation, function(i,location){
@@ -259,24 +259,39 @@ $(document).on('click','#btnViewHistory',function(){
     $('#divPurchaseHistory').slideToggle();
     fillPurchaseHistoryTable();
 })
+
+//allows user to click a transaction id and produces a sweetalert
+/*
+    how would you provide the transaction details inside the dang sweetalert???
+*/
+$(document).on('click','#btnTransaction', function(){
+    let strTransID=$(this).attr
+    Swal.fire({
+        icon: 'info',
+        title: '<p>'+ $('#btnTransaction').val()+ '</p>',
+        html: '<p>transaction</p>'
+    })
+})
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
-    //$('#tblPurchaseHistory tbody').empty();
-    console.log("here");
-    let strCurrentSessionID = sessionStorage.getItem('membershipID');
+    $('#tblPurchaseHistory tbody').empty();
 
-            let strTableHTML = '<tr><td> <button type="button" class="btn col-12"> Location </button></td></tr>';
-            $('#tblCharacters tbody').append(strTableHTML);
+    let strCurrentSessionID = sessionStorage.getItem('MembershipID');
+            let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
+            console.log("here");
+            $('#tblPurchaseHistory tbody').append(strTableHTML);
 
-    /*$.getJSON('http://localhost:7071/api/strFunction=purchases?',{strSessionID:strCurrentSessionID},function(result){
+    /*
+        $.getJSON('http://localhost:7071/api/strFunction=purchases?',{strSessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,transaction){
-            let strTableHTML = '<tr><td> <button type="button" class="btn"> '+  transaction.TransactionID+'</button></td></tr>';
-            $('#tblCharacters tbody').append(strTableHTML);
+            let strTableHTML = '<tr><td> <button type="button" class="btn" id="btnTransaction"> '+  transaction.TransactionID+'</button></td></tr>';
+            $('#tblPurchaseHistory tbody').append(strTableHTML);
 
 
         })
-    })*/
+        })
+    */
 }
 //end for index.html
 
@@ -306,8 +321,8 @@ function doPasswordsMatch(strPassword, strVerifyPassword){
 
 // Begin Universal Functions
 function verifySession(){
-    if(sessionStorage.getItem('CharacterSession')){
-        let strCurrentSessionID = sessionStorage.getItem('CharacterSession')
+    if(sessionStorage.getItem('MembershipID')){
+        let strCurrentSessionID = sessionStorage.getItem('MembershipID')
         $.getJSON('https://www.swollenhippo.com/DS3870/Test1/verifySession.php', {strSessionID: strCurrentSessionID}, function(result){
             if(result.Outcome != 'Valid Session'){
                 return false;
