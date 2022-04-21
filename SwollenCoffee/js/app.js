@@ -31,7 +31,7 @@ $(document).on('click','#btnLogin', function(){
             }
         })
     } else{
-        $.post('https://www.swollenhippo.com/DS3870/Comics/createSession.php',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        $.post('http://localhost:7071/api/swollenCoffee?function=session',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
         
         if(objResult.Outcome != 'Login Failed'){
@@ -117,7 +117,7 @@ $(document).on('click','#btnNewAccount', function(){
             html: strErrorMessage
         })
     }else{
-        var objNewSessionPromise= $.post('insert create account endpoint', { strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress:$('txtAddress').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
+        var objNewSessionPromise= $.post('http://localhost:7071/api/swollenCoffee?function=membership', { strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress1:$('txtAddress1').val(),strAddress2:$('txtAddress2').val(),strCity:$('txtCity').val(),strState:$('txtState').val(),strZip:$('txtZIP').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
             console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 
@@ -154,7 +154,7 @@ $(document).on('click','#btnBackToLogin', function(){
     window.location.href = 'login.html';
 })
 //end for newAccount.html
-
+/*
 $(document).on('click','#btnAddCharacter', function(){
     let strSesID= sessionStorage.getItem('CharacterSession');
 
@@ -196,7 +196,7 @@ $(document).on('click','#btnAddCharacter', function(){
             })
         }
     })
-})
+})*/
 
 //start for index.html
 $(document).on('click','#btnSignOut', function(){
@@ -204,7 +204,7 @@ $(document).on('click','#btnSignOut', function(){
     let strErrorMessage = '';
     
     window.location.href='login.html';
-        /*$.post('https://www.swollenhippo.com/DS3870/Comics/createSession.php',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        /*$.post('http://localhost:7071/api/swollenCoffee?function=',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
         
         if(objResult.Outcome != 'Login Failed'){
@@ -255,7 +255,7 @@ $(document).on('click', '#btnSubmitEmail', function(){
 
 $(document).on('click','#dropdownPrefLocation', function(){
     let strCurrentSessionID = sessionStorage.getItem('MembershipID');
-    $.getJSON('http://localhost:7071/api/swollencoffee?function',{strSessionID: strCurrentSessionID}, function(result){
+    $.getJSON('http://localhost:7071/api/swollencoffee?function=location',{strSessionID: strCurrentSessionID}, function(result){
         console.log(result);
         $.each(arrLocation, function(i,location){
             console.log(location.LocationID);
@@ -272,9 +272,9 @@ $(document).on('click','#btnViewHistory',function(){
     fillPurchaseHistoryTable();
 })
 
-//allows user to click a transaction id and produces a sweetalert
 /*
-    how would you provide the transaction details inside the dang sweetalert???
+    allows user to click a transaction id and produces a sweetalert
+    -how would you provide the transaction details inside the dang sweetalert???
 */
 $(document).on('click','#btnTransaction', function(){
     let strTransID=$(this).attr
@@ -295,7 +295,7 @@ function fillPurchaseHistoryTable(){
             $('#tblPurchaseHistory tbody').append(strTableHTML);
 
     /*
-        $.getJSON('http://localhost:7071/api/strFunction=purchases?',{strSessionID:strCurrentSessionID},function(result){
+        $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases',{strSessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,transaction){
             let strTableHTML = '<tr><td> <button type="button" class="btn" id="btnTransaction"> '+  transaction.TransactionID+'</button></td></tr>';
             $('#tblPurchaseHistory tbody').append(strTableHTML);
