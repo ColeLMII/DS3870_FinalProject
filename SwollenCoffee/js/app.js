@@ -90,13 +90,25 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+= '<p>Address 2 is Blank.</p>';
     }
-    if(!$('#txtPhoneNumber').val()){
+    if(!$('#txtCity').val()){
         blnError=true;
-        strErrorMessage+= '<p>Phone Number is Blank.</p>';
+        strErrorMessage+= '<p>City is Blank.</p>';
+    }
+    if(!$('#txtState').val()){
+        blnError=true;
+        strErrorMessage+= '<p>State is Blank.</p>';
+    }
+    if(!$('#txtZIP').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Zip Code is Blank.</p>';
+    } else if ($('#txtZIP').val() > 5){
+        blnError=true;
+        strErrorMessage+= '<p>Zip Code Must be 5 Digits Long.'
+
     }
     if(!$('#txtDateOfBirth').val()){
         blnError=true;
-        strErrorMessage+= '<p>Date of Birth is Blank.</p>';
+        strErrorMessage+= '<p>Birthday is Blank.</p>';
     }
     if(blnError == true){
         Swal.fire({
