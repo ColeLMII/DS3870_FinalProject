@@ -154,49 +154,7 @@ $(document).on('click','#btnBackToLogin', function(){
     window.location.href = 'login.html';
 })
 //end for newAccount.html
-/*
-$(document).on('click','#btnAddCharacter', function(){
-    let strSesID= sessionStorage.getItem('CharacterSession');
 
-    $.getJSON('https://www.swollenhippo.com/DS3870/Comics/verifySession.php', {strSessionID: strSesID}, function(result){
-        console.log(result);
-        if(result.Outcome == 'Valid Session'){
-            let strCName = $('#txtCharacterName').val();
-            let strSPower = $('#txtSuperPower').val();
-            let strHLocation = $('#txtLocation').val();
-            let strHStaturs = $('#selectStatus').val()
-            $.post('https://www.swollenhippo.com/DS3870/Comics/addCharacter.php', {strSessionID: strSesID, strName:strCName, strSuperPower:strSPower, strLocation:strHLocation, strStatus:strHStaturs}, function(result){
-                let object = JSON.parse(result);
-                if(object.Outcome != 'Error'){
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title:'Task Added.',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    clearCharacterFields()
-                    fillCharacterTable();
-                } else{
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Title Not Added',
-                        html: '<p> Verify your task data and try again.</p>'
-                    })
-                }
-            })
-        } else{
-            Swal.fire({
-                icon: 'error',
-                title: 'Expired Session',
-                html: '<p>Oops, appears your session has expired.</p>'
-            }).then((result)=>{
-                sessionStorage.removeItem('HippoTaskID');
-                window.location.href = 'login.html';
-            })
-        }
-    })
-})*/
 
 //start for index.html
 $(document).on('click','#btnSignOut', function(){
@@ -331,7 +289,7 @@ function doPasswordsMatch(strPassword, strVerifyPassword){
 function verifySession(){
     if(sessionStorage.getItem('MembershipID')){
         let strCurrentSessionID = sessionStorage.getItem('MembershipID')
-        $.getJSON('https://www.swollenhippo.com/DS3870/Test1/verifySession.php', {strSessionID: strCurrentSessionID}, function(result){
+        $.getJSON('http://localhost:7071/api/swollenCoffee?', {function:'session',strSessionID: strCurrentSessionID}, function(result){
             if(result.Outcome != 'Valid Session'){
                 return false;
             } else {
