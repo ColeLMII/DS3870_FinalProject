@@ -31,12 +31,12 @@ $(document).on('click','#btnLogin', function(){
             }
         })
     } else{
-        $.post('http://localhost:7071/api/swollenCoffee?function=session',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        $.post('http://localhost:7071/api/swollenCoffee?',{function:'session', strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
         
         if(objResult.Outcome != 'Login Failed'){
                 // set your Session Storage Item here
-                sessionStorage.setItem('CharacterSession', objResult.Outcome);
+                sessionStorage.setItem('MembershipID', objResult.Outcome);
                 // then redirect the user to the dashboard
                 window.location.href='index.html';
                 fillCharacterTable();
@@ -117,7 +117,7 @@ $(document).on('click','#btnNewAccount', function(){
             html: strErrorMessage
         })
     }else{
-        var objNewSessionPromise= $.post('http://localhost:7071/api/swollenCoffee?function=membership', { strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress1:$('txtAddress1').val(),strAddress2:$('txtAddress2').val(),strCity:$('txtCity').val(),strState:$('txtState').val(),strZip:$('txtZIP').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
+        var objNewSessionPromise= $.post('http://localhost:7071/api/swollenCoffee?', {function:'membership',strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress1:$('txtAddress1').val(),strAddress2:$('txtAddress2').val(),strCity:$('txtCity').val(),strState:$('txtState').val(),strZip:$('txtZIP').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
             console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 
@@ -162,7 +162,7 @@ $(document).on('click','#btnSignOut', function(){
     let strErrorMessage = '';
     
     window.location.href='login.html';
-        /*$.post('http://localhost:7071/api/swollenCoffee?function=session',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        $.post('http://localhost:7071/api/swollenCoffee?',{function:'session',strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); //should update last used date and time
         
         if(objResult.Outcome != 'Login Failed'){
@@ -178,7 +178,7 @@ $(document).on('click','#btnSignOut', function(){
                     html: '<p>The provided username and password did not match any in our database</p>'
                 })
             }
-        }) */
+        })
     
 })
 
@@ -289,7 +289,7 @@ function doPasswordsMatch(strPassword, strVerifyPassword){
 function verifySession(){
     if(sessionStorage.getItem('MembershipID')){
         let strCurrentSessionID = sessionStorage.getItem('MembershipID')
-        $.getJSON('http://localhost:7071/api/swollenCoffee?', {function:'session',strSessionID: strCurrentSessionID}, function(result){
+        $.getJSON('http://localhost:7071/api/swollenCoffee?', {function:'session', strSessionID: strCurrentSessionID}, function(result){
             if(result.Outcome != 'Valid Session'){
                 return false;
             } else {

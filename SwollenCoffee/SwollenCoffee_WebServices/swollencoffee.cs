@@ -35,14 +35,17 @@ namespace SQLIntegration
 
                     //Variable info comes from the Query Parameters in the URL
                     //ie http://localhost:7071/swollenCoffee?function=membership&Email=bburchfield@tntech.edu
-                    string strSessionID = req.Query["strSessionID"];
+                    string strMembershipID = req.Query["strMembershipID"];
 
-                    string strQuery = "SELECT * FROM dbo.tblCustomers WHERE Email = @Email";
+                    string strQuery = "SELECT * FROM dbo.tblCustomers WHERE MembershipID = @MembershipID";
                     // Put your using 
                     using (SqlConnection conTasks = new SqlConnection(strTasksConnectionString))
-                    using (SqlCommand comTasks = new SqlCommand(strQuery, conTasks))
+                    using (SqlCommand comUser = new SqlCommand(strQuery, conTasks))
                     {
-                       
+                        SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
+                        parMemID.Value = strMembershipID;
+                        comUser.Parameters.Add(parMemID);
+
                         return new OkObjectResult(dsLocations);
                     }
                 }
@@ -62,9 +65,10 @@ namespace SQLIntegration
                     string strZIP = req.Query["strZIP"];
                     string strPhoneNumber = req.Query["strPhoneNumber"];
                     string strDateOfBirth = req.Query["strDateOfBirth"];
-                   
-                    string strQuery = "INSERT INTO dbo.tblUsers (Email, FirstName, LastName, Password, Address, PhoneNumber, DateOfBirth) VALUES (@Email, @FirstName, @LastName, @Address, @PhoneNumber, @DateOfBirth, 'ACTIVE')";
-
+                    
+                    //insert into customer
+                    string strQuery = "insert into dbo.tblCustomers (Email, FirstName, LastName, DateofBirth, MembershipID, PreferredLocation) values(@... ,)";
+                    
                     using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
                     using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
                     {
@@ -80,26 +84,28 @@ namespace SQLIntegration
                         parLastName.Value = strLastName;
                         comNewUser.Parameters.Add(parLastName);
 
-                        SqlParameter parPassword = new SqlParameter("Password", SqlDbType.VarChar);
-                        parPassword.Value = strPassword;
-                        comNewUser.Parameters.Add(parPassword);
-
-                        SqlParameter parAddress = new SqlParameter("Address", SqlDbType.VarChar);
-                        parAddress.Value = strAddress;
-                        comNewUser.Parameters.Add(parAddress);
-
-                        SqlParameter parPhoneNumber = new SqlParameter("PhoneNumber", SqlDbType.VarChar);
-                        parPhoneNumber.Value = strPhoneNumber;
-                        comNewUser.Parameters.Add(parPhoneNumber);
-
-                        SqlParameter parDOB = new SqlParameter("Address", SqlDbType.VarChar);
-                        parAddress.Value = strDateOfBirth;
+                        SqlParameter parDOB = new SqlParameter("DateofBirth", SqlDbType.VarChar);
+                        parDOB.Value = strDateOfBirth;
                         comNewUser.Parameters.Add(parDOB);
 
-                        conNewUser.Open();
-                        comNewUser.ExecuteNonQuery();
-                        conNewUser.Close();
-                        return new OkObjectResult("User Added");
+                        SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
+                        parMemID.Value = strMembershipID;
+                        comNewUser.Parameters.Add(parMemID);
+                        
+                        //return new OkObjectResult("User Added");
+                    }
+
+                    strQuery = "insert into dbo.tblSessions (SessionID, Email, StartDateTime, LastUsedDateTime,Type) values (@... ,)";
+                    using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
+                    {
+                        SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
+                        parMemID.Value = strMembershipID;
+                        comNewUser.Parameters.Add(parMemID);
+
+                        SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                        parEmail.Value = strEmail;
+                        comNewUser.Parameters.Add(parEmail);
                     }
                 }
                 if (req.Method == HttpMethods.Put)
@@ -147,6 +153,26 @@ namespace SQLIntegration
                 if (req.Method == HttpMethods.Post)
                 {
                     string strSessionID = Guid.NewGuid().ToString();
+                    strTasksConnectionString = ;
+                    SqlConnection conSwollenCoffee = new SqlConnection(strTasksConnectionString);
+                    string strEmail = req.Query["strEmail"];
+                    string strPassword = req.Query["strPassword"];
+
+                    string strquery = "select * from dbo.tblUsers where UPPER(Email) = UPPER(@Email) and Password = @Password";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strquery, conSwollenCoffee))
+                    {
+                        //insert par statements
+
+                        SqlDataAdapter daUsers = new SqlDataAdapter(comUsers);
+                        daUsers.Fill(dsUsers);
+
+                        if(dsUsers.Table[0].rows.Count > 0)
+                        {
+                            strquery= "insert into dbo.tblSession values"
+                        }
+                    }
+
                 }
                 if (req.Method == HttpMethods.Put)
                 {
