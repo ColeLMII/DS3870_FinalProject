@@ -55,52 +55,14 @@ namespace SQLIntegration
                     string strLastName = req.Query["strLastName"];
                     string strMembershipID = Guid.NewGuid().ToString();
                     string strPassword = req.Query["strPassword"];
-                    string strAddress = req.Query["strAddress"];
-                    //string strStreetTwo = req.Query["strStreetTwo"];
+                    string strAddress1 = req.Query["strAddress1"];
+                    string strAddress2 = req.Query["strAddress2"];
+                    string strCity = req.Query["strCity"];
+                    string strState = req.Query["strstate"];
+                    string strZIP = req.Query["strZIP"];
                     string strPhoneNumber = req.Query["strPhoneNumber"];
                     string strDateOfBirth = req.Query["strDateOfBirth"];
-                    bool blnErrors = false;
-                    string strErrorMessage = "";
-                    if (strEmail.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "Email Cannot Be Blank";
-                    }
-                    if (strFirstName.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "FirstName Cannot Be Blank";
-                    }
-                    if (strLastName.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "LastName Cannot Be Blank";
-                    }
-                    if (strPassword.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "Password Cannot Be Blank";
-                    }
-                    if (strAddress.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "Address Cannot Be Blank";
-                    }
-                    if (strPhoneNumber.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "PhoneNumber Cannot Be Blank";
-                    }
-                    if (strDateOfBirth.Length < 0)
-                    {
-                        blnErrors = true;
-                        strErrorMessage += Environment.NewLine + "DateOfBirth Cannot Be Blank";
-                    }
-                    if (blnErrors == true)
-                    {
-                        return new OkObjectResult(strErrorMessage);
-                    }
-
+                   
                     string strQuery = "INSERT INTO dbo.tblUsers (Email, FirstName, LastName, Password, Address, PhoneNumber, DateOfBirth) VALUES (@Email, @FirstName, @LastName, @Address, @PhoneNumber, @DateOfBirth, 'ACTIVE')";
 
                     using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))

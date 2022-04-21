@@ -204,8 +204,8 @@ $(document).on('click','#btnSignOut', function(){
     let strErrorMessage = '';
     
     window.location.href='login.html';
-        /*$.post('http://localhost:7071/api/swollenCoffee?function=',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
-        objResult = JSON.parse(result); 
+        /*$.post('http://localhost:7071/api/swollenCoffee?function=session',{strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        objResult = JSON.parse(result); //should update last used date and time
         
         if(objResult.Outcome != 'Login Failed'){
                 // set your Session Storage Item here
@@ -230,8 +230,6 @@ $(document).on('click','#btnToggleExisting', function(){
 
 $(document).on('click','#btnUpdateInformation', function(){
     $('#divUpdateInfo').slideToggle();
-
-    //$.getJSON('http://localhost:7071/')
 })
 
 //for updating customer information
@@ -262,8 +260,7 @@ $(document).on('click','#dropdownPrefLocation', function(){
 
             let strDropDownHTML= '<li><a class="dropdown-item" href="#">' + location.LocationID + '</a></li>';
             $('#dropdownPrefLocation').append(strDropDownHTML);
-        })
-            
+        }) 
     })
 })
 
@@ -288,7 +285,6 @@ $(document).on('click','#btnTransaction', function(){
 
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
-
     let strCurrentSessionID = sessionStorage.getItem('MembershipID');
             let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
             console.log("here");
@@ -342,7 +338,7 @@ function verifySession(){
                 return true;
             }
         })
-    } else {
+    }else {
         return false;
     }
 }
