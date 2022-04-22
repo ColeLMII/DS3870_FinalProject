@@ -20,57 +20,57 @@ namespace SQLIntegration
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", "put", Route = null)] HttpRequest req,
             ILogger log)
         {
-
+            string strTaskConnectionString = @"Server=PCLABSQL01\COB_DS2;Database=SwollenCoffee;User Id=student;Password=Mickey2020!;";
+            SqlConnection conSwollenCoffee = new SqlConnection(strTaskConnectionString);
             string strFunction = req.Query["function"];
             log.LogInformation("C# HTTP trigger function processed a request for " + strFunction);
 
-            string strTasksConnectionString = @"Server=PCLABSQL01\COB_DS2,1436;Database=SwollenCoffee;User Id=student;Password=Mickey2020!;";
-
             if (strFunction == "membership")
             {
-                // do membership functions
                 if (req.Method == HttpMethods.Get)
                 {
-                    //SELECT the membership info and return back that dataset table
+                    DataSet dsSessions = new DataSet();
+                    string strMembershipID = req.Query["SessionID"];
 
-                    //Variable info comes from the Query Parameters in the URL
-                    //ie http://localhost:7071/swollenCoffee?function=membership&Email=bburchfield@tntech.edu
-                    string strMembershipID = req.Query["strMembershipID"];
+                    string strQuery = "SELECT * FROM dbo.tblCustomers LEFT JOIN dbo.tblCustomerHomeLocations ON tblCustomers.Email = tblCustomerHomeLocations.Email LEFT JOIN dbo.tblPhone ON tblCustomers.MembershipID = tblPhone.Member LEFT JOIN dbo.tblAddress ON tblCustomers.MembershipID = tblAddress.Member WHERE tblCustomers.Email = (SELECT Email FROM dbo.tblSessions WHERE SessionID = @SessionID)";
 
-                    string strQuery = "SELECT * FROM dbo.tblCustomers WHERE MembershipID = @MembershipID";
-                    // Put your using 
-                    using (SqlConnection conTasks = new SqlConnection(strTasksConnectionString))
-                    using (SqlCommand comUser = new SqlCommand(strQuery, conTasks))
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUser = new SqlCommand(strQuery, conSwollenCoffee))
                     {
-                        SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
-                        parMemID.Value = strMembershipID;
-                        comUser.Parameters.Add(parMemID);
+                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                        parSessionID.Value = strMembershipID;
+                        comUser.Parameters.Add(parSessionID);
 
-                        return new OkObjectResult(dsLocations);
+                        SqlDataAdapter daSessions = new SqlDataAdapter(comUser);
+                        daSessions.Fill(dsSessions);
+
+                        return new OkObjectResult(dsSessions.Tables[0]);
                     }
                 }
                 if (req.Method == HttpMethods.Post)
                 {
-                    //Variable info comes from the Query Parameters in the URL
-                    //ie http://localhost:7071/swollenCoffee?function=membership&Firstname=Ben
-                    string strEmail = req.Query["strEmail"];
-                    string strFirstName = req.Query["strFirstName"];
-                    string strLastName = req.Query["strLastName"];
+                    string strEmail = req.Query["Email"];
+                    string strFirstName = req.Query["FirstName"];
+                    string strLastName = req.Query["LastName"];
                     string strMembershipID = Guid.NewGuid().ToString();
-                    string strPassword = req.Query["strPassword"];
-                    string strAddress1 = req.Query["strAddress1"];
-                    string strAddress2 = req.Query["strAddress2"];
-                    string strCity = req.Query["strCity"];
-                    string strState = req.Query["strstate"];
-                    string strZIP = req.Query["strZIP"];
-                    string strPhoneNumber = req.Query["strPhoneNumber"];
-                    string strDateOfBirth = req.Query["strDateOfBirth"];
-                    
+                    string strPreferredLocation = req.Query["PreferredLocation"];
+                    string strPassword = req.Query["Password"];
+                    string strAddressID = Guid.NewGuid().ToString();
+                    string strAddress1 = req.Query["Address1"];
+                    string strAddress2 = req.Query["Address2"];
+                    string strCity = req.Query["City"];
+                    string strState = req.Query["State"];
+                    string strZIP = req.Query["ZIP"];
+                    string strPhoneID = Guid.NewGuid().ToString();
+                    string strPhoneNumber = req.Query["PhoneNumber"];
+                    string strDateOfBirth = req.Query["DateOfBirth"];
+                    string strUpdateDateTime = req.Query["UpdateDateTime"];
+
                     //insert into customer
-                    string strQuery = "insert into dbo.tblCustomers (Email, FirstName, LastName, DateofBirth, MembershipID, PreferredLocation) values(@... ,)";
+                    string strQuery = "insert into dbo.tblCustomers values (@Email, @FirstName, @LastName, @DOB, @MembershipID, @PreferredLocation";
                     
-                    using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
-                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
+                    using (conSwollenCoffee)
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
                     {
                         SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
                         parEmail.Value = strEmail;
@@ -91,96 +91,167 @@ namespace SQLIntegration
                         SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
                         parMemID.Value = strMembershipID;
                         comNewUser.Parameters.Add(parMemID);
-                        
-                        //return new OkObjectResult("User Added");
+
+                        SqlParameter parPreferredLocation = new SqlParameter("PreferredLocation", SqlDbType.VarChar);
+                        parPreferredLocation.Value = strPreferredLocation;
+                        comNewUser.Parameters.Add(parPreferredLocation);
+
+                        conSwollenCoffee.Open();
+                        comNewUser.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
                     }
 
                     strQuery = "insert into dbo.tblSessions (SessionID, Email, StartDateTime, LastUsedDateTime,Type) values (@... ,)";
-                    using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
-                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                     {
-                        SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
-                        parMemID.Value = strMembershipID;
-                        comNewUser.Parameters.Add(parMemID);
-
                         SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
                         parEmail.Value = strEmail;
-                        comNewUser.Parameters.Add(parEmail);
+                        comUsers.Parameters.Add(parEmail);
+
+                        SqlParameter parPassword = new SqlParameter("Password", SqlDbType.VarChar);
+                        parPassword.Value = strMembershipID;
+                        comUsers.Parameters.Add(parPassword);
+
+                        conSwollenCoffee.Open();
+                        comUsers.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
                     }
                 }
                 if (req.Method == HttpMethods.Put)
                 {
-                    //Variable info comes from the Query Parameters in the URL
-                    //ie http://localhost:7071/swollenCoffee?function=membership&Firstname=Ben
+                    string strEmail = req.Query["Email"];
                     string strFirstName = req.Query["Firstname"];
                     string strLastName = req.Query["Lastname"];
+                    string strDateOfBirth = req.Query["DateOfBirth"];
+                    string strMembershipID = Guid.NewGuid().ToString();
+                    string strPreferredLocation = req.Query["PreferredLocation"];
+                    string strPhoneID = Guid.NewGuid().ToString();
+                    string strPhone = req.Query["TelephoneNumber"];
+                    string strAddressID = Guid.NewGuid().ToString();
+                    string strStreet1 = req.Query["Street1"];
+                    string strStreet2 = req.Query["Street2"];
+                    string strCity = req.Query["City"];
+                    string strState = req.Query["State"];
+                    string strZip = req.Query["Zip"];
+                    string strUpdateDateTime = req.Query["UpdateDateTime"];
                 }
-
             }
             else if (strFunction == "location")
             {
                 if (req.Method == HttpMethods.Get)
                 {
-                    string sessionID = req.Query["sessionID"];
+                    string strSessionID = req.Query["SessionID"];
                     DataSet dsLocations = new DataSet();
-                       try
-                        {
-                            string strQuery = "select * from tblLocations;";
-                            using (SqlConnection conTasks = new SqlConnection(strTasksConnectionString))
-                            using (SqlCommand comTasks = new SqlCommand(strQuery, conTasks))
-                            {
-                                //must create a data adapter, all you to fill a dataset
-                                SqlDataAdapter daTasks = new SqlDataAdapter(comTasks);
-                                daTasks.Fill(dsLocations);
+                    string strQuery = "SELECT * FROM dbo.tblLocations WHERE (SELECT COUNT(*) FROM dbo.tblSessions WHERE tblSessions.SessionID = @SessionID) > 0";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                        parSessionID.Value = strSessionID;
+                        comUsers.Parameters.Add(parSessionID);
 
-                                return new OkObjectResult(dsLocations);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            return new OkObjectResult(ex.Message.ToString());
-                        }
-                  
+                        SqlDataAdapter daLocations = new SqlDataAdapter(comUsers);
+                        daLocations.Fill(dsLocations);
+
+                        return new OkObjectResult(dsLocations.Tables[0]);
+                    }
                 }
-
             }
             else if (strFunction == "session")
             {
                 if (req.Method == HttpMethods.Get)
                 {
+                    DataSet dsSessions = new DataSet();
+                    string strSessionID = req.Query["SessionID"];
+                    string strQuery = "SELECT * FROM dbo.tblSessions WHERE tblSessions.SessionID = @SessionID";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                        parSessionID.Value = strSessionID;
+                        comUsers.Parameters.Add(parSessionID);
 
+                        SqlDataAdapter daSessions = new SqlDataAdapter(comUsers);
+                        daSessions.Fill(dsSessions);
+
+                        return new OkObjectResult(dsSessions.Tables[0]);
+                    }
                 }
                 if (req.Method == HttpMethods.Post)
                 {
                     string strSessionID = Guid.NewGuid().ToString();
-                    strTasksConnectionString = ;
-                    SqlConnection conSwollenCoffee = new SqlConnection(strTasksConnectionString);
-                    string strEmail = req.Query["strEmail"];
-                    string strPassword = req.Query["strPassword"];
-
+                    
+                    string strEmail = req.Query["Email"];
+                    string strPassword = req.Query["Password"];
+                    DataSet dsUsers = new DataSet();
                     string strquery = "select * from dbo.tblUsers where UPPER(Email) = UPPER(@Email) and Password = @Password";
                     using (conSwollenCoffee)
                     using (SqlCommand comUsers = new SqlCommand(strquery, conSwollenCoffee))
                     {
-                        //insert par statements
+                        SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                        parEmail.Value = strEmail;
+                        comUsers.Parameters.Add(parEmail);
+
+                        SqlParameter parPassword = new SqlParameter("Password", SqlDbType.VarChar);
+                        parPassword.Value = strPassword;
+                        comUsers.Parameters.Add(parPassword);
 
                         SqlDataAdapter daUsers = new SqlDataAdapter(comUsers);
                         daUsers.Fill(dsUsers);
-
-                        if(dsUsers.Table[0].rows.Count > 0)
+                    }
+                    if(dsUsers.Tables[0].Rows.Count > 0)
+                    {
+                        string strQuery = "INSERT INTO dbo.tblSessions VALUES(@SessionID,UPPER(@Email),GETDATE(),GETDATE(),'Mobile')";
+                        using (conSwollenCoffee)
+                        using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
-                            strquery= "insert into dbo.tblSession values"
+                            SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                            parSessionID.Value = strSessionID;
+                            comUsers.Parameters.Add(parSessionID);
+
+                            SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                            parEmail.Value = strEmail;
+                            comUsers.Parameters.Add(parEmail);
+
+                            conSwollenCoffee.Open();
+                            comUsers.ExecuteNonQuery();
+                            conSwollenCoffee.Close();
+                            return new OkObjectResult("{\"SessionID\":\"" + strSessionID + "\"}");
                         }
                     }
-
                 }
                 if (req.Method == HttpMethods.Put)
                 {
-
+                    string strSessionID = req.Query["SessionID"];
+                    string strQuery = "UPDATE dbo.tblSessions SET LastUsedDateTime = GETDATE() WHERE tblSessions.SessionID = @SessionID";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                        parSessionID.Value = strSessionID;
+                        comUsers.Parameters.Add(parSessionID);
+                        conSwollenCoffee.Open();
+                        comUsers.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
+                        return new OkObjectResult("{\"Outcome\":\"Session Updated\"}");
+                    }
                 }
                 if (req.Method == HttpMethods.Delete)
                 {
-
+                    string strSessionID = req.Query["SessionID"];
+                    string strQuery = "DELETE FROM dbo.tblSessions WHERE tblSessions.SessionID = @SessionID";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                        parSessionID.Value = strSessionID;
+                        comUsers.Parameters.Add(parSessionID);
+                        conSwollenCoffee.Open();
+                        comUsers.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
+                        return new OkObjectResult("{\"Outcome\":\"Session Deleted\"}");
+                    }
                 }
             }
             else if (strFunction == "purchases")
@@ -189,30 +260,16 @@ namespace SQLIntegration
                 {
                     string strSessionID = req.Query["SessionID"];
                     DataSet dsPurchases = new DataSet();
-                    if (strSessionID == null || strSessionID == "")
+                    string strQuery = "SELECT dbo.tblTransactions.*, dbo.tblTransactionItems.* FROM dbo.tblSessions LEFT JOIN dbo.tblTransactions ON tblSessions.Email = tblTransactions.Member LEFT JOIN tblTransactionItems ON tblTransactions.TransactionID = tblTransactionItems.Transaction WHERE tblSessions.SessionID = @SessionID";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                     {
-                        string strQuery = "SELECT * FROM dbo.tblUsers";
-                        using (SqlConnection conPurch = new SqlConnection(strTasksConnectionString))
-                        using (SqlCommand comPurch = new SqlCommand(strQuery, conPurch))
-                        {
-                            SqlDataAdapter daUsers = new SqlDataAdapter(comPurch);
-                            daUsers.Fill(dsPurchases);
-                            return new OkObjectResult(dsPurchases.Tables[0]);
-                        }
-                    }
-                    else
-                    {
-                        string strQuery = "SELECT * FROM dbo.tblUsers WHERE Email = @Email";
-                        using (SqlConnection conPurch = new SqlConnection(str))
-                        using (SqlCommand comDS3870 = new SqlCommand(strQuery, conDS3870))
-                        {
-                            SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
-                            parEmail.Value = strEmail;
-                            comDS3870.Parameters.Add(parEmail);
-                            SqlDataAdapter daUsers = new SqlDataAdapter(comDS3870);
-                            daUsers.Fill(dsUsers);
-                            return new OkObjectResult(dsUsers.Tables[0]);
-                        }
+                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
+                        parSessionID.Value = strSessionID;
+                        comUsers.Parameters.Add(parSessionID);
+                        SqlDataAdapter daPurchases = new SqlDataAdapter(comUsers);
+                        daPurchases.Fill(dsPurchases);
+                        return new OkObjectResult(dsPurchases.Tables[0]);
                     }
                 }
             }
