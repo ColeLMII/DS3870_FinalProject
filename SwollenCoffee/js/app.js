@@ -106,6 +106,10 @@ $(document).on('click','#btnNewAccount', function(){
         strErrorMessage+= '<p>Zip Code Must be 5 Digits Long.'
 
     }
+    if(!$('#txtPhoneNumber').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Phone Number is Blank.</p>';
+    }
     if(!$('#txtDateOfBirth').val()){
         blnError=true;
         strErrorMessage+= '<p>Birthday is Blank.</p>';
