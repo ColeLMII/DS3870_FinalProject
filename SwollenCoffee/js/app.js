@@ -170,10 +170,10 @@ $(document).on('click','#btnSignOut', function(){
         
         if(objResult.Outcome != 'Login Failed'){
                 // set your Session Storage Item here
-                sessionStorage.setItem('CharacterSession', objResult.Outcome);
+                sessionStorage.setItem('MembershipID', objResult.Outcome);
                 // then redirect the user to the dashboard
                 window.location.href='index.html';
-                fillCharacterTable();
+                
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -193,8 +193,7 @@ $(document).on('click','#btnUpdateInformation', function(){
     $('#divUpdateInfo').slideToggle();
 })
 
-//for updating customer information
-$(document).on('click', '#btnSubmitEmail', function(){
+$(document).on('click', '#btnSubmitUpdate', function(){
     let strErrorMessage='';
     let blnError = false;
 
@@ -232,27 +231,29 @@ $(document).on('click','#btnViewHistory',function(){
 
 /*
     allows user to click a transaction id and produces a sweetalert
-    -how would you provide the transaction details inside the dang sweetalert???
 */
 $(document).on('click','#btnTransaction', function(){
-    let strTransID=$(this).attr
+    let strTransID=$(this).attr();
+
     Swal.fire({
         icon: 'info',
-        title: '<p>'+ $('#btnTransaction').val()+ '</p>',
-        html: '<p>transaction</p>'
+        title: '<p>'+ strTransID.TransactionID+ '</p>',
+        html: '<p>'+ strTransID.TransactionDateTime+'</p>',
+        forEach(strTransID.ItemID => {
+            html: '<p>' + strTransID.+ '</p>'
+        });
+        
     })
 })
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
-    let strCurrentSessionID = sessionStorage.getItem('MembershipID');
+    /*let strCurrentSessionID = sessionStorage.getItem('MembershipID');
             let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
             console.log("here");
-            $('#tblPurchaseHistory tbody').append(strTableHTML);
-
-    /*
-        $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases',{strSessionID:strCurrentSessionID},function(result){
+            $('#tblPurchaseHistory tbody').append(strTableHTML);*/
+    $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases',{strSessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,transaction){
             let strTableHTML = '<tr><td> <button type="button" class="btn" id="btnTransaction"> '+  transaction.TransactionID+'</button></td></tr>';
             $('#tblPurchaseHistory tbody').append(strTableHTML);
@@ -260,7 +261,6 @@ function fillPurchaseHistoryTable(){
 
         })
         })
-    */
 }
 //end for index.html
 
