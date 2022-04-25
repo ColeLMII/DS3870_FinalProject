@@ -101,7 +101,7 @@ namespace SQLIntegration
                         conSwollenCoffee.Close();
                     }
 
-                    strQuery = "insert into dbo.tblSessions (SessionID, Email, StartDateTime, LastUsedDateTime,Type) values (@... ,)";
+                    strQuery = "insert into dbo.tblSessions (SessionID, Email, StartDateTime, LastUsedDateTime,Type) values (@SessionID, @Email, @StartDateTime, @LastUsedDateTime, @Type)";
                     using (conSwollenCoffee)
                     using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                     {

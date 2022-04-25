@@ -101,10 +101,9 @@ $(document).on('click','#btnNewAccount', function(){
     if(!$('#txtZIP').val()){
         blnError=true;
         strErrorMessage+= '<p>Zip Code is Blank.</p>';
-    } else if ($('#txtZIP').val() > 5){
+    } else if ($('#txtZIP').val().length < 5 || $('#txtZIP').val().length < 5){
         blnError=true;
         strErrorMessage+= '<p>Zip Code Must be 5 Digits Long.'
-
     }
     if(!$('#txtPhoneNumber').val()){
         blnError=true;
