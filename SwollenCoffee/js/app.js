@@ -178,18 +178,21 @@ $.getJSON('http://localhost:7071/api/swollencoffee',{function:'location'}, funct
 //start for index.html
 $(document).on('click','#btnSignOut', function(){
     Swal.fire({
-        icon:'info',
-        title:'Signing Out',
+        icon: 'error',
+        title: 'Sign Out',
         html: 'Are you sure?'
-    }).then({
-        method: 'DELETE',
-        url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID='+localStorage.getItem('MembershipID')
-    }).done(function(result){
-        let objResult = JSON.parse(result);
-        if(objResult == "Session Deleted"){
-            localStorage.removeItem('MembershipID');
-            window.location.href='login.html';
-        }
+    }).then((result)=>{
+        $.ajax({
+            method:'DELETE',
+            url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('MembershipID')
+        }).done(function(result){
+            console.log(result);
+            let objResult = JSON.parse(result);
+            if(objResult.Outcome == 'Session Deleted'){
+                localStorage.removeItem('MembershipID');
+                window.location.href='login.html';
+            }
+        })  
     })
 })
 
@@ -304,10 +307,15 @@ $(document).on('click', '#btnSubmitUpdate', function(){
 })
 
 $(document).on('click','#btnViewHistory',function(){
-    $.getJSON('http://localhost:7071/api/swollencoffee?function=purchases&SessionID='+localStorage.getItem(MembershipID),function(result){
-        console.log(result); //delete
-        $.each(result,(i,member)=>{
-           
+    $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases&SessionID=' + localStorage.getItem("SessionID"),function(result){
+        let strHTML = '';
+        $.each(result,(i,purchase) =>{
+           strHTML += '<div class="card mt-2"><div class="card-header"<h3 class="col-12 text-left">' + purchase.transactionDateTime.split('T')[0] + '</h3></div><div class="card-body"><p class="text-left">Item: ' + purchase.description + '</p><p class="text-left">Quantity: ' + purchase.qty  + '</p><p class="text-left">Price: ' + purchase.qtyPrice  + '</p></div></div>'
+        })
+        Swal.fire({
+            icon: 'info',
+            title: 'Purchase History',
+            html: strHTML
         })
     })
     $('#divPurchaseHistory').slideToggle();

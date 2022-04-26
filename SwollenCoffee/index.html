@@ -43,12 +43,12 @@
                         </row>
                         
                         <div class="d-flex justify-content-center my-2" aria label="Update Information">
-                            <button class="btn" id="btnUpdateInformation" > Update Information </button>
+                            <button class="btn " id="btnUpdateInformation" > Update Information </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" /*style="display:none;"*/ id="divUpdateInfo">
+            <div class="row" style="display:none;" id="divUpdateInfo">
                 <div class="card col-12 col-md-8 offset-md-2 mt-3"  style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);">
                     <div class="card-header">
                         <h3 class="text-center" style="color:bisque;">Update Your Information</h3>
@@ -108,12 +108,12 @@
             <div class="row">
                 <div class="card col-12 col-md-8 offset-md-2 mt-3" style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);">
                     <div class="card-header d-flex justify-content-center" >
-                        <div class="row">
-                            <button class="btn col-12 my-4 d-flex justify-content-center" id="btnViewHistory">View Purchase History</button>
-                                <!--<button class="btn col-3 my-1 float-right d-flex justify-content-end" id="btnViewHistory">View History</button>-->
+                        <div class="container">
+                                <button class="btn col-12 my-4 d-flex justify-content-center" id="btnViewHistory">View Purchase History</button>
                         </div>
+                        
                     </div>
-                    <div class="card-body" id="divPurchaseHistory" style="display:none;">
+                    <!--<div class="card-body" id="divPurchaseHistory" style="display:none;">
                         <table class="table" id="tblPurchaseHistory">
                             <thead>
                                 <tr><th class="fs-5 d-flex justify-content-center" style="color:bisque;">Transaction ID</th></tr>
@@ -122,12 +122,17 @@
                                 
                             </tbody>
                         </table>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
+        <!--<nav class="navbar fixed-bottom ">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Fixed bottom</a>
+            </div>
+          </nav>-->
     </div>
-    <!--For QRcode -->
+    
     
     <!--For Session Verification-->
     <script>
