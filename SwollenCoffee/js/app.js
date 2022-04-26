@@ -37,7 +37,11 @@ $(document).on('click','#btnLogin', function(){
         
         if(objResult.Outcome != 'Login Failed'){
                 // set your Session Storage Item here
+                localStorage.setItem('MembershipID',objResult.Outcome);
+                console.log(localStorage.getItem('MembershipID'));
                 sessionStorage.setItem('MembershipID', objResult.Outcome);
+                console.log(sessionStorage.getItem('MembershipID'));
+
                 // then redirect the user to the dashboard
                 window.location.href='index.html';
                 //loads QRCode and fills purchase history table
@@ -128,7 +132,7 @@ $(document).on('click','#btnNewAccount', function(){
             html: strErrorMessage
         })
     }else{
-        var objNewSessionPromise= $.post('http://localhost:7071/api/swollenCoffee?', {function:'membership',strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress1:$('txtAddress1').val(),strAddress2:$('txtAddress2').val(),strCity:$('txtCity').val(),strState:$('txtState').val(),strZip:$('txtZIP').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
+        var objNewSessionPromise= $.post('http://localhost:7071/api/swollenCoffee?', {function:'membership',Email:$('#txtEmail').val(), FirstName:$('#txtFirstName').val(), LastName:$('#txtLastName').val(), Password:$('#txtPassword').val(), Address1:$('txtAddress1').val(),Address2:$('txtAddress2').val(),City:$('txtCity').val(),State:$('txtState').val(),Zip:$('txtZIP').val(),PhoneNumber:$('#txtPhoneNumber').val(),DateOfBirth:$('#txtDateOfBirth').val()}, function(result){
             console.log(JSON.parse(result).Outcome);
             objNewSessionPromise = JSON.parse(result);
         }) 
@@ -141,8 +145,11 @@ $(document).on('click','#btnNewAccount', function(){
                     html: '<p> Review Username and Password </p>'
                 })
             } else{ 
-                sessionStorage.setItem('MembershipID', objNewSessionPromise.Outcome);
-                console.log(objNewSessionPromise);
+                let strMembershipID = objResult.Outcome.split('|')[1];
+                let strSessionID = objResult.Outcome.split('|')[2];
+                localStorage.setItem('MembershipID',strMembershipID);
+                localStorage.setItem('SessionID',strSessionID);
+                
                 Swal.fire({
                     icon: 'success',
                     title: 'Acccount Created!',
