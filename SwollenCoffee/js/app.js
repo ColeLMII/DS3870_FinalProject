@@ -32,7 +32,7 @@ $(document).on('click','#btnLogin', function(){
             }
         })
     } else{
-        $.getJSON('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
+        $.post('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
         
         if(objResult.Outcome != 'Login Failed'){
@@ -184,7 +184,7 @@ $(document).on('click','#btnSignOut', function(){
     }).then((result)=>{
         $.ajax({
             method:'DELETE',
-            url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('MembershipID')
+            url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('SessionID')
         }).done(function(result){
             console.log(result);
             let objResult = JSON.parse(result);
