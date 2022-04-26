@@ -141,16 +141,12 @@ namespace SQLIntegration
             {
                 if (req.Method == HttpMethods.Get)
                 {
-                    string strSessionID = req.Query["SessionID"];
+
                     DataSet dsLocations = new DataSet();
-                    string strQuery = "SELECT * FROM dbo.tblLocations WHERE (SELECT COUNT(*) FROM dbo.tblSessions WHERE tblSessions.SessionID = @SessionID) > 0";
+                    string strQuery = "SELECT * FROM dbo.tblLocations";
                     using (conSwollenCoffee)
                     using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                     {
-                        SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
-                        parSessionID.Value = strSessionID;
-                        comUsers.Parameters.Add(parSessionID);
-
                         SqlDataAdapter daLocations = new SqlDataAdapter(comUsers);
                         daLocations.Fill(dsLocations);
 

@@ -19,6 +19,7 @@ $(document).on('click','#btnLogin', function(){
     }
     if(blnError == true){
         Swal.fire({
+            toast: true,
             icon: 'error',
             title: 'Missing Data',
             html: strErrorMessage,
@@ -305,7 +306,7 @@ $(document).on('click','#btnViewHistory',function(){
 
 /*
     allows user to click a transaction id and produces a sweetalert
-*/
+
 $(document).on('click','#btnTransaction', function(){
     let strTransID=$(this).attr('TransactionID');
 
@@ -318,7 +319,7 @@ $(document).on('click','#btnTransaction', function(){
         });
         
     })
-})
+})*/
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
