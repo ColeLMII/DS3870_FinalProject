@@ -71,16 +71,16 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+='<p>Email is not valid</p>';
     }
-    if(!doPasswordsMatch($('#txtNewPassword').val(),$('#txtVerifyPassword').val())){
-        blnError=true;
-        strErrorMessage+='<p>Passwords do not match</p>';
-    }
     if(!$('#txtNewPassword').val()){
         blnError=true;
         strErrorMessage+= '<p>Password is Blank.</p>';
-    }else if(!isValidPassword($('#txtPassword').val())){
+    }else if(!isValidPassword($('#txtNewPassword').val())){
         blnError=true;
         strErrorMessage+='<p>Password is not valid</p>';
+    }
+    else if(!doPasswordsMatch($('#txtNewPassword').val(),$('#txtVerifyPassword').val())){
+        blnError=true;
+        strErrorMessage+='<p>Passwords do not match</p>';
     }
     if(!$('#txtFirstName').val()){
         blnError=true;
