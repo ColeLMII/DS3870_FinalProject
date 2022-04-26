@@ -124,17 +124,125 @@ namespace SQLIntegration
                     string strFirstName = req.Query["Firstname"];
                     string strLastName = req.Query["Lastname"];
                     string strDateOfBirth = req.Query["DateOfBirth"];
-                    string strMembershipID = Guid.NewGuid().ToString();
+                    string strMembershipID = req.Query["MembershipID"];
                     string strPreferredLocation = req.Query["PreferredLocation"];
-                    string strPhoneID = Guid.NewGuid().ToString();
+                    string strPhoneID = req.Query["PhoneID"];
                     string strPhone = req.Query["TelephoneNumber"];
-                    string strAddressID = Guid.NewGuid().ToString();
+                    string strAddressID = req.Query["AddressID"];
                     string strStreet1 = req.Query["Street1"];
                     string strStreet2 = req.Query["Street2"];
                     string strCity = req.Query["City"];
                     string strState = req.Query["State"];
                     string strZip = req.Query["Zip"];
-                    string strUpdateDateTime = req.Query["UpdateDateTime"];
+                    
+                    string strQuery = "update dbo.tblCustomers set FirstName=@FirstName, LastName=@LastName, DateOfBirth=@DateofBirth, PreferredLocation=@PreferredLocation where MembershipID=@MembershipID";
+
+                    using (conSwollenCoffee)
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parFirstname = new SqlParameter("FirstName", SqlDbType.VarChar);
+                        parFirstname.Value = strFirstName;
+                        comNewUser.Parameters.Add(parFirstname);
+
+                        SqlParameter parLastName = new SqlParameter("LastName", SqlDbType.VarChar);
+                        parLastName.Value = strLastName;
+                        comNewUser.Parameters.Add(parLastName);
+
+                        SqlParameter parDOB = new SqlParameter("DateofBirth", SqlDbType.VarChar);
+                        parDOB.Value = strDateOfBirth;
+                        comNewUser.Parameters.Add(parDOB);
+
+                        SqlParameter parPreferredLocation = new SqlParameter("PreferredLocation", SqlDbType.VarChar);
+                        parPreferredLocation.Value = strPreferredLocation;
+                        comNewUser.Parameters.Add(parPreferredLocation);
+
+                        SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
+                        parMemID.Value = strMembershipID;
+                        comNewUser.Parameters.Add(parMemID);
+
+                        
+
+                        conSwollenCoffee.Open();
+                        comNewUser.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
+                    }
+
+                    strQuery = "update dbo.tblPhone SET NationCode=@NationCode, AreaCode=@AreaCode, TelephoneNumber=@TelephoneNumber where PhoneID=@PhoneID";
+
+                    using (conSwollenCoffee)
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parNationCode = new SqlParameter("NationCode", SqlDbType.VarChar);
+                        parNationCode.Value = "1";
+                        comNewUser.Parameters.Add(parNationCode);
+
+                        SqlParameter parAreaCode = new SqlParameter("AreaCode", SqlDbType.VarChar);
+                        parAreaCode.Value = strPhone.Substring(0,3);
+                        comNewUser.Parameters.Add(parAreaCode);
+
+                        SqlParameter parTelephoneNumber = new SqlParameter("TelephoneNumber", SqlDbType.VarChar);
+                        parTelephoneNumber.Value = strPhone.Substring(3);
+                        comNewUser.Parameters.Add(parTelephoneNumber);
+
+                        SqlParameter parPhoneID = new SqlParameter("PhoneID", SqlDbType.VarChar);
+                        parPhoneID.Value = strMembershipID;
+                        comNewUser.Parameters.Add(parPhoneID);
+
+                        conSwollenCoffee.Open();
+                        comNewUser.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
+                    }
+
+                    strQuery = "update dbo.tblAddress SET Street1=@Street1, Street2=@Street2, City=@City, State=@State, ZIP=@Zip where AddressID=@AddressID";
+
+                    using (conSwollenCoffee)
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parStreet1 = new SqlParameter("Street1", SqlDbType.VarChar);
+                        parStreet1.Value = strStreet1;
+                        comNewUser.Parameters.Add(parStreet1);
+
+                        SqlParameter parStreet2 = new SqlParameter("Street2", SqlDbType.VarChar);
+                        parStreet2.Value = strStreet2;
+                        comNewUser.Parameters.Add(parStreet2);
+
+                        SqlParameter parCity = new SqlParameter("City", SqlDbType.VarChar);
+                        parCity.Value = strCity;
+                        comNewUser.Parameters.Add(parCity);
+
+                        SqlParameter parState = new SqlParameter("State", SqlDbType.VarChar);
+                        parState.Value = strState;
+                        comNewUser.Parameters.Add(parState);
+
+                        SqlParameter parZIP = new SqlParameter("Zip", SqlDbType.VarChar);
+                        parZIP.Value = strZip;
+                        comNewUser.Parameters.Add(parZIP);
+
+                        SqlParameter parAddressID = new SqlParameter("AddressID", SqlDbType.VarChar);
+                        parAddressID.Value = strAddressID;
+                        comNewUser.Parameters.Add(parAddressID);
+
+                        conSwollenCoffee.Open();
+                        comNewUser.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
+                    }
+
+                    strQuery = "update dbo.tblCustomerHomeLocations SET LocationID=@LocationID, UpdateDateTime=GETDATE() where Email=@Email,";
+                    using (conSwollenCoffee)
+                    using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
+                    {
+                        SqlParameter parLocationID = new SqlParameter("LocationID", SqlDbType.VarChar);
+                        parLocationID.Value = strPreferredLocation;
+                        comNewUser.Parameters.Add(parLocationID);
+
+                        SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                        parEmail.Value = strStreet2;
+                        comNewUser.Parameters.Add(parEmail);
+
+                        conSwollenCoffee.Open();
+                        comNewUser.ExecuteNonQuery();
+                        conSwollenCoffee.Close();
+                    }
                 }
             }
             else if (strFunction == "location")
