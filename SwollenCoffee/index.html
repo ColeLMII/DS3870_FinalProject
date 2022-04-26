@@ -34,14 +34,12 @@
                             <h5 class="col-3 fs-6 text-white">Last Name: <span id="spLastName"></span></h5>
                         </div>
                         <div class="row col-12">
-                            <h5 class="d-flex justify-content-center fs-5" style="color:bisque;">Membership QR: <span id="spUsername"></span></h5>
-                            <!-- maybe we have to use the endpoint for the customer's session ID?-->
+                            <h5 class="d-flex justify-content-center fs-5" style="color:bisque;">Membership QR: <span id="spUsername"></span>
+                            </h5>
+
                         </div>
                         <row class="col-12 d-flex justify-content-center">
-                            <div id="qrcode"></div>
-                            <script type="text/javascript">
-                            new QRCode(document.getElementById("qrcode"), "https://getbootstrap.com/");
-                            </script>
+                            <div id="divQRcode"></div>
                         </row>
                         
                         <div class="d-flex justify-content-center my-2" aria label="Update Information">
@@ -50,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="display:none;" id="divUpdateInfo">
+            <div class="row" /*style="display:none;"*/ id="divUpdateInfo">
                 <div class="card col-12 col-md-8 offset-md-2 mt-3"  style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);">
                     <div class="card-header">
                         <h3 class="text-center" style="color:bisque;">Update Your Information</h3>
@@ -59,34 +57,44 @@
                         <div class="row col-12">
                             <row>
                                 <h6 class="col-12" style="color:bisque;"> Email Address: 
-                                    <input id="txtAddress" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Email Address" placeholder="Address">
+                                    <input id="txtUpdateAddress" type="address" class="form-control mt-3 border border-primary rounded" disabled aria-label="Update Email Address" placeholder="Address">
+                                </h6>
+                                <h6 class="col-12" style="color:bisque;"> First Name: 
+                                    <input id="txtUpdateFirstName" type="text" class="form-control mt-3 border border-primary rounded" aria-label="Update First Name" placeholder="First Name">
+                                </h6>
+                                <h6 class="col-12" style="color:bisque;">
+                                Last Name: 
+                                    <input id="txtUpdateLastName" type="text" class="form-control mt-3 border border-primary rounded" aria-label="Update Last Name" placeholder="Last Name">
+                                </h6>
+                                <h6 class="col-12" style="color:bisque;">
+                                    Date of Birth: 
+                                        <input id="txtUpdateDateofBirth" type="date" class="form-control mt-3 border border-primary rounded" aria-label="Update Date of Birth" placeholder="Date of Birth">
+                                    </h6>
+                                <h6 class="col-12" style="color:bisque;">
+                                    Phone Number: 
+                                        <input id="txtUpdatePhoneNumber" type="tel" class="form-control mt-3 border border-primary rounded" aria-label="Update Phone Number" placeholder="Phone Number">
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;"> Street One: 
-                                    <input id="txtAddress1" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Street One" placeholder="Street One">
+                                    <input id="txtUpdateAddress1" type="address" class="form-control mt-3 border border-primary rounded" aria-label="Update Street One" placeholder="Street One">
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;"> Street Two: 
-                                    <input id="txtAddress2" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update Street Two" placeholder="Street One">
+                                    <input id="txtUpdateAddress2" type="address" class="form-control mt-3 border border-primary rounded" aria-label="Update Street Two" placeholder="Street One">
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;"> City: 
-                                    <input id="txtCity" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update City" placeholder="City">
+                                    <input id="txtUpdateCity" type="text" class="form-control mt-3 border border-primary rounded" aria-label="Update City" placeholder="City">
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;"> State: 
-                                    <input id="txtState" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update State" placeholder="State">
+                                    <input id="txtUpdateState" type="text" class="form-control mt-3 border border-primary rounded" aria-label="Update State" placeholder="State">
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;"> Zip Code: 
-                                    <input id="txtZIP" type="address" class="form-control mt-3 border border-primary rounded-pill shadow p-3" aria-label="Update State" placeholder="State">
+                                    <input id="txtUpdateZip" type="address" class="form-control mt-3 border border-primary rounded" aria-label="Update State" placeholder="State">
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;"> Preferred Location: 
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary my-2 dropdown-toggle col-12 d-flex justify-content-center" type="button" id="dropdownPrefLocation" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Location Preference
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                          <li><a class="dropdown-item" href="#">Action</a></li>
-                                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                      </div>
+                                        <select class="form-control" id="cboNewPreferredLocation">
+                                            <option></option>
+                                        </select>
+                                    </div>
                                 </h6>
                                 
                             </row>

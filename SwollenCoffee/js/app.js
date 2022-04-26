@@ -40,6 +40,8 @@ $(document).on('click','#btnLogin', function(){
                 sessionStorage.setItem('MembershipID', objResult.Outcome);
                 // then redirect the user to the dashboard
                 window.location.href='index.html';
+                //loads QRCode and fills purchase history table
+                loadMemberQR(localStorage.getItem('MembershipID'));
                 fillPurchaseHistoryTable();
             } else {
                 Swal.fire({
@@ -51,6 +53,11 @@ $(document).on('click','#btnLogin', function(){
         })
     }
 })
+
+function loadMemberQR(MembershipID){
+    new QRcode(document.getElementById("divQRcode"),MembershipID);
+    $('#spUsername').text(MembershipID);
+}
 //end of login.html
 
 //start for newAccount.html
@@ -159,6 +166,14 @@ $(document).on('click','#btnBackToLogin', function(){
 })
 //end for newAccount.html
 
+//populates preferred locations
+$.getJSON('http://localhost:7071/api/swollencoffee',{function:'location'}, function(result){
+        console.log(result);//delete eventually
+        $.each(result,(i,location)=>{
+            console.log(location.LocationID);
+            $('#cboNewPreferredLocation').append('<option value="' + location.locationID + '">' + location.locationID + '</option>');
+        }) 
+    })
 
 //start for index.html
 $(document).on('click','#btnSignOut', function(){
@@ -191,6 +206,24 @@ $(document).on('click','#btnToggleExisting', function(){
 })
 
 $(document).on('click','#btnUpdateInformation', function(){
+    $.getJSON('http://localhost:7071/api/swollencoffee?function=membership&SessionID='+localStorage.getItem(MembershipID),function(result){
+        $.each(result,(i,member)=>{
+            $('#txtUpdateEmail').val(member.email);
+            $('#txtUpdateFirstName').val(member.firstName);
+            $('#txtUpdateLastName').val(member.lastName);
+            $('#txtUpdateDateOfBirth').val(member.dateOfBirth);
+            $('#txtUpdatePhone').val(member.areaCOde + member.telephoneNumber);
+            $('#txtUpdatePhone').attr('data-phoneid',member.phoneID);
+            $('#txtUpdateAddress1').val(member.street1);
+            $('#txtUpdateAddress1').attr('data-addressid',member.addressID);
+            $('#txtUpdateAddress2').val(member.street2);
+            $('#txtUpdateCity').val(member.city);
+            $('#txtUpdateState').val(member.state);
+            $('#txtUpdateZip').val(member.zip);
+            $('#cboNewPreferredLocation').val(member.preferredLocation);
+        })
+    })
+    
     $('#divUpdateInfo').slideToggle();
 })
 
@@ -284,19 +317,6 @@ $(document).on('click', '#btnSubmitUpdate', function(){
             }
         })
     }
-})
-
-$(document).on('click','#dropdownPrefLocation', function(){
-    let strCurrentSessionID = sessionStorage.getItem('MembershipID');
-    $.getJSON('http://localhost:7071/api/swollencoffee',{function:'location', SessionID: strCurrentSessionID}, function(result){
-        console.log(result);
-        $.each(arrLocation, function(i,location){
-            console.log(location.LocationID);
-
-            let strDropDownHTML= '<li><a class="dropdown-item" href="#">' + location.LocationID + '</a></li>';
-            $('#dropdownPrefLocation').append(strDropDownHTML);
-        }) 
-    })
 })
 
 $(document).on('click','#btnViewHistory',function(){
