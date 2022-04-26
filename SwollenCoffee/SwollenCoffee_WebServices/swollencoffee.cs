@@ -35,9 +35,15 @@ namespace SQLIntegration
 
                     //Variable info comes from the Query Parameters in the URL
                     //ie http://localhost:7071/swollenCoffee?function=membership&Email=bburchfield@tntech.edu
+<<<<<<< Updated upstream
                     string strMembershipID = req.Query["strMembershipID"];
 
                     string strQuery = "SELECT * FROM dbo.tblCustomers WHERE MembershipID = @MembershipID";
+=======
+                    string strSessionID = req.Query["strSessionID"];
+                    DataSet dsLocations = new DataSet();
+                    string strQuery = "SELECT * FROM dbo.tblCustomers WHERE Email = @Email";
+>>>>>>> Stashed changes
                     // Put your using 
                     using (SqlConnection conTasks = new SqlConnection(strTasksConnectionString))
                     using (SqlCommand comUser = new SqlCommand(strQuery, conTasks))
@@ -65,10 +71,16 @@ namespace SQLIntegration
                     string strZIP = req.Query["strZIP"];
                     string strPhoneNumber = req.Query["strPhoneNumber"];
                     string strDateOfBirth = req.Query["strDateOfBirth"];
+<<<<<<< Updated upstream
                     
                     //insert into customer
                     string strQuery = "insert into dbo.tblCustomers (Email, FirstName, LastName, DateofBirth, MembershipID, PreferredLocation) values(@... ,)";
                     
+=======
+                   
+                    string strQuery = "INSERT INTO dbo.tblUsers (Email, FirstName, LastName, Password, Address, Address2, PhoneNumber, DateOfBirth) VALUES (@Email, @FirstName, @LastName, @Address, @PhoneNumber, @DateOfBirth, 'ACTIVE')";
+
+>>>>>>> Stashed changes
                     using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
                     using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
                     {
@@ -84,9 +96,35 @@ namespace SQLIntegration
                         parLastName.Value = strLastName;
                         comNewUser.Parameters.Add(parLastName);
 
+<<<<<<< Updated upstream
                         SqlParameter parDOB = new SqlParameter("DateofBirth", SqlDbType.VarChar);
                         parDOB.Value = strDateOfBirth;
                         comNewUser.Parameters.Add(parDOB);
+=======
+                        SqlParameter parPassword = new SqlParameter("Password", SqlDbType.VarChar);
+                        parPassword.Value = strPassword;
+                        comNewUser.Parameters.Add(parPassword);
+
+                        SqlParameter parAddress1 = new SqlParameter("Address1", SqlDbType.VarChar);
+                        parAddress1.Value = strAddress1;
+                        comNewUser.Parameters.Add(parAddress1);
+
+                        SqlParameter parAddress2 = new SqlParameter("Address1", SqlDbType.VarChar);
+                        parAddress2.Value = strAddress2;
+                        comNewUser.Parameters.Add(parAddress2);
+
+                        SqlParameter parCity = new SqlParameter("City", SqlDbType.VarChar);
+                        parCity.Value = strCity;
+                        comNewUser.Parameters.Add(parCity);
+
+                        SqlParameter parState = new SqlParameter("State", SqlDbType.VarChar);
+                        parState.Value = strState;
+                        comNewUser.Parameters.Add(parState);
+
+                        SqlParameter parZIP = new SqlParameter("ZIP", SqlDbType.VarChar);
+                        parZIP.Value = strZIP;
+                        comNewUser.Parameters.Add(parZIP);
+>>>>>>> Stashed changes
 
                         SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
                         parMemID.Value = strMembershipID;
@@ -95,6 +133,7 @@ namespace SQLIntegration
                         //return new OkObjectResult("User Added");
                     }
 
+<<<<<<< Updated upstream
                     strQuery = "insert into dbo.tblSessions (SessionID, Email, StartDateTime, LastUsedDateTime,Type) values (@... ,)";
                     using (SqlConnection conNewUser = new SqlConnection(strTasksConnectionString))
                     using (SqlCommand comNewUser = new SqlCommand(strQuery, conNewUser))
@@ -102,6 +141,11 @@ namespace SQLIntegration
                         SqlParameter parMemID = new SqlParameter("MembershipID", SqlDbType.VarChar);
                         parMemID.Value = strMembershipID;
                         comNewUser.Parameters.Add(parMemID);
+=======
+                        SqlParameter parDOB = new SqlParameter("Address", SqlDbType.VarChar);
+                        parDOB.Value = strDateOfBirth;
+                        comNewUser.Parameters.Add(parDOB);
+>>>>>>> Stashed changes
 
                         SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
                         parEmail.Value = strEmail;
@@ -203,15 +247,15 @@ namespace SQLIntegration
                     else
                     {
                         string strQuery = "SELECT * FROM dbo.tblUsers WHERE Email = @Email";
-                        using (SqlConnection conPurch = new SqlConnection(str))
-                        using (SqlCommand comDS3870 = new SqlCommand(strQuery, conDS3870))
+                        using (SqlConnection conPurch = new SqlConnection(strTasksConnectionString))
+                        using (SqlCommand comPurch = new SqlCommand(strQuery, conPurch))
                         {
                             SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
-                            parEmail.Value = strEmail;
-                            comDS3870.Parameters.Add(parEmail);
-                            SqlDataAdapter daUsers = new SqlDataAdapter(comDS3870);
-                            daUsers.Fill(dsUsers);
-                            return new OkObjectResult(dsUsers.Tables[0]);
+                            //parEmail.Value = strEmail;
+                            comPurch.Parameters.Add(parEmail);
+                            SqlDataAdapter daUsers = new SqlDataAdapter(comPurch);
+                            daUsers.Fill(dsPurchases);
+                            return new OkObjectResult(dsPurchases.Tables[0]);
                         }
                     }
                 }
