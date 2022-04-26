@@ -19,6 +19,7 @@ $(document).on('click','#btnLogin', function(){
     }
     if(blnError == true){
         Swal.fire({
+            toast: true,
             icon: 'error',
             title: 'Missing Data',
             html: strErrorMessage,
@@ -31,7 +32,7 @@ $(document).on('click','#btnLogin', function(){
             }
         })
     } else{
-        $.post('http://localhost:7071/api/swollenCoffee?',{function:'session', strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
+        $.getJSON('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
         objResult = JSON.parse(result); 
         
         if(objResult.Outcome != 'Login Failed'){
@@ -39,7 +40,9 @@ $(document).on('click','#btnLogin', function(){
                 sessionStorage.setItem('MembershipID', objResult.Outcome);
                 // then redirect the user to the dashboard
                 window.location.href='index.html';
-                fillCharacterTable();
+                //loads QRCode and fills purchase history table
+                loadMemberQR(localStorage.getItem('MembershipID'));
+                fillPurchaseHistoryTable();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -50,24 +53,29 @@ $(document).on('click','#btnLogin', function(){
         })
     }
 })
+
+function loadMemberQR(MembershipID){
+    new QRcode(document.getElementById("divQRcode"),MembershipID);
+    $('#spUsername').text(MembershipID);
+}
 //end of login.html
 
 //start for newAccount.html
 $(document).on('click','#btnNewAccount', function(){
     let strErrorMessage='';
     let blnError = false;
-    if(!$('#txtEmail').val()){
+    if(!$('#txtNewEmail').val()){
         blnError=true;
         strErrorMessage+= '<p>Email is Blank.</p>';
-    }else if(!isValidEmail($('#txtEmail').val())){
+    }else if(!isValidEmail($('#txtNewEmail').val())){
         blnError=true;
         strErrorMessage+='<p>Email is not valid</p>';
     }
-    if(!doPasswordsMatch($('#txtPassword').val(),$('#txtVerifyPassword').val())){
+    if(!doPasswordsMatch($('#txtNewPassword').val(),$('#txtVerifyPassword').val())){
         blnError=true;
         strErrorMessage+='<p>Passwords do not match</p>';
     }
-    if(!$('#txtPassword').val()){
+    if(!$('#txtNewPassword').val()){
         blnError=true;
         strErrorMessage+= '<p>Password is Blank.</p>';
     }else if(!isValidPassword($('#txtPassword').val())){
@@ -86,10 +94,10 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+= '<p>Address 1 is Blank.</p>';
     }
-    if(!$('#txtAddress2').val()){
+    /*if(!$('#txtAddress2').val()){
         blnError=true;
         strErrorMessage+= '<p>Address 2 is Blank.</p>';
-    }
+    }*/
     if(!$('#txtCity').val()){
         blnError=true;
         strErrorMessage+= '<p>City is Blank.</p>';
@@ -101,10 +109,13 @@ $(document).on('click','#btnNewAccount', function(){
     if(!$('#txtZIP').val()){
         blnError=true;
         strErrorMessage+= '<p>Zip Code is Blank.</p>';
-    } else if ($('#txtZIP').val() > 5){
+    } else if ($('#txtZIP').val().length < 5 || $('#txtZIP').val().length < 5){
         blnError=true;
         strErrorMessage+= '<p>Zip Code Must be 5 Digits Long.'
-
+    }
+    if(!$('#txtPhoneNumber').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Phone Number is Blank.</p>';
     }
     if(!$('#txtDateOfBirth').val()){
         blnError=true;
@@ -155,31 +166,34 @@ $(document).on('click','#btnBackToLogin', function(){
 })
 //end for newAccount.html
 
+//populates preferred locations
+$.getJSON('http://localhost:7071/api/swollencoffee',{function:'location'}, function(result){
+        console.log(result);//delete eventually
+        $.each(result,(i,location)=>{
+            console.log(location.LocationID);
+            $('#cboNewPreferredLocation').append('<option value="' + location.locationID + '">' + location.locationID + '</option>');
+        }) 
+    })
 
 //start for index.html
 $(document).on('click','#btnSignOut', function(){
-    let blnError = false;
-    let strErrorMessage = '';
-    
-    window.location.href='login.html';
-        $.post('http://localhost:7071/api/swollenCoffee?',{function:'session',strEmail:$('#txtEmail').val(),strPassword:$('#txtPassword').val()},function(result){
-        objResult = JSON.parse(result); //should update last used date and time
-        
-        if(objResult.Outcome != 'Login Failed'){
-                // set your Session Storage Item here
-                sessionStorage.setItem('CharacterSession', objResult.Outcome);
-                // then redirect the user to the dashboard
-                window.location.href='index.html';
-                fillCharacterTable();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Failed',
-                    html: '<p>The provided username and password did not match any in our database</p>'
-                })
+    Swal.fire({
+        icon: 'error',
+        title: 'Sign Out',
+        html: 'Are you sure?'
+    }).then((result)=>{
+        $.ajax({
+            method:'DELETE',
+            url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('MembershipID')
+        }).done(function(result){
+            console.log(result);
+            let objResult = JSON.parse(result);
+            if(objResult.Outcome == 'Session Deleted'){
+                localStorage.removeItem('MembershipID');
+                window.location.href='login.html';
             }
-        })
-    
+        })  
+    })
 })
 
 $(document).on('click','#btnToggleExisting', function(){
@@ -187,77 +201,157 @@ $(document).on('click','#btnToggleExisting', function(){
 })
 
 $(document).on('click','#btnUpdateInformation', function(){
+    $.getJSON('http://localhost:7071/api/swollencoffee?function=membership&SessionID='+localStorage.getItem(MembershipID),function(result){
+        $.each(result,(i,member)=>{
+            $('#txtUpdateEmail').val(member.email);
+            $('#txtUpdateFirstName').val(member.firstName);
+            $('#txtUpdateLastName').val(member.lastName);
+            $('#txtUpdateDateOfBirth').val(member.dateOfBirth);
+            $('#txtUpdatePhoneNumber').val(member.areaCOde + member.telephoneNumber);
+            $('#txtUpdatePhone').attr('data-phoneid',member.phoneID);
+            $('#txtUpdateAddress1').val(member.street1);
+            $('#txtUpdateAddress1').attr('data-addressid',member.addressID);
+            $('#txtUpdateAddress2').val(member.street2);
+            $('#txtUpdateCity').val(member.city);
+            $('#txtUpdateState').val(member.state);
+            $('#txtUpdateZip').val(member.zip);
+            $('#cboNewPreferredLocation').val(member.preferredLocation);
+        })
+    })
+    
     $('#divUpdateInfo').slideToggle();
 })
 
-//for updating customer information
-$(document).on('click', '#btnSubmitEmail', function(){
+$(document).on('click', '#btnSubmitUpdate', function(){
     let strErrorMessage='';
     let blnError = false;
-
-    if(!$('#txtNewEmail').val()){
-        blnError = true;
-        strErrorMessage += '<p> New Email Address is empty.</p>';
+    if(!$('#txtEmail').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Email is Blank.</p>';
+    }else if(!isValidEmail($('#txtEmail').val())){
+        blnError=true;
+        strErrorMessage+='<p>Email is not valid</p>';
     }
-    
+    /*if(!$('#txtPassword').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Password is Blank.</p>';
+    }else if(!isValidPassword($('#txtPassword').val())){
+        blnError=true;
+        strErrorMessage+='<p>Password is not valid</p>';
+    }*/
+    if(!$('#txtFirstName').val()){
+        blnError=true;
+        strErrorMessage+= '<p>First Name is Blank.</p>';
+    }
+    if(!$('#txtLastName').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Last Name is Blank.</p>';
+    }
+    if(!$('#txtAddress1').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Address 1 is Blank.</p>';
+    }
+    if(!$('#txtAddress2').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Address 2 is Blank.</p>';
+    }
+    if(!$('#txtCity').val()){
+        blnError=true;
+        strErrorMessage+= '<p>City is Blank.</p>';
+    }
+    if(!$('#txtState').val()){
+        blnError=true;
+        strErrorMessage+= '<p>State is Blank.</p>';
+    }
+    if(!$('#txtZIP').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Zip Code is Blank.</p>';
+    } else if ($('#txtZIP').val().length < 5 || $('#txtZIP').val().length < 5){
+        blnError=true;
+        strErrorMessage+= '<p>Zip Code Must be 5 Digits Long.'
+    }
+    if(!$('#txtPhoneNumber').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Phone Number is Blank.</p>';
+    }
+    if(!$('#txtDateOfBirth').val()){
+        blnError=true;
+        strErrorMessage+= '<p>Birthday is Blank.</p>';
+    }
     if(blnError == true){
         Swal.fire({
-            icon: 'warning',
-            title: 'Unable to Update',
+            icon: 'error',
+            title: 'Missing Data',
             html: strErrorMessage
+        })
+    }else{ // this needs to be a put not a post.
+        $.ajax({
+            type:'PUT',
+            url:'http://localhost:7071/api/swollencoffee?function=membership&PhoneID='+ $('#txtUpdatePhone').attr('data-phoneid')+'&AddressID='+$('#txtUpdateAddress1').attr('data-addressid')+'&Email='+ $('txtUpdateEmail').val()+'&FirstName='+$$('txtUpdateFirstName').val()+'&LastName='+ $('txtUpdateLastName').val()+'&DateOfBirth=' + $('#txtUpdateDateOfBirth').val() + '&PreferredLocation=' + $('#cboNewPreferredLocation').val() + '&TelephoneNumber=' + $('#txtUpdatePhone').val() + '&Street1=' + $('#txtUpdateAddress1').val() + '&Street2=' + $('#txtUpdateAddress2').val() + '&City=' + $('#txtUpdateCity').val() + '&State=' + $('#txtUpdateState').val() + '&Zip=' + $('#txtUpdateZip').val() + '&Password=' + $('#txtUpdatePassword').val() + '&MembershipID=' + localStorage.getItem('MembershipID')
+        }).done(function(result){
+            console.log(result);
+            Swal.fire({
+                icon: 'success',
+                title: 'Update Successful!',
+                showClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeInDown
+                    animate__faster
+                    `
+                }
+            })
+
         })
     }
 })
 
-$(document).on('click','#dropdownPrefLocation', function(){
-    let strCurrentSessionID = sessionStorage.getItem('MembershipID');
-    $.getJSON('http://localhost:7071/api/swollencoffee?function=location',{strSessionID: strCurrentSessionID}, function(result){
-        console.log(result);
-        $.each(arrLocation, function(i,location){
-            console.log(location.LocationID);
-
-            let strDropDownHTML= '<li><a class="dropdown-item" href="#">' + location.LocationID + '</a></li>';
-            $('#dropdownPrefLocation').append(strDropDownHTML);
-        }) 
-    })
-})
-
 $(document).on('click','#btnViewHistory',function(){
+    $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases&SessionID=' + localStorage.getItem("SessionID"),function(result){
+        let strHTML = '';
+        $.each(result,(i,purchase) =>{
+           strHTML += '<div class="card mt-2"><div class="card-header"<h3 class="col-12 text-left">' + purchase.transactionDateTime.split('T')[0] + '</h3></div><div class="card-body"><p class="text-left">Item: ' + purchase.description + '</p><p class="text-left">Quantity: ' + purchase.qty  + '</p><p class="text-left">Price: ' + purchase.qtyPrice  + '</p></div></div>'
+        })
+        Swal.fire({
+            icon: 'info',
+            title: 'Purchase History',
+            html: strHTML
+        })
+    })
     $('#divPurchaseHistory').slideToggle();
-    fillPurchaseHistoryTable();
+    //fillPurchaseHistoryTable();
 })
 
 /*
     allows user to click a transaction id and produces a sweetalert
-    -how would you provide the transaction details inside the dang sweetalert???
-*/
+
 $(document).on('click','#btnTransaction', function(){
-    let strTransID=$(this).attr
+    let strTransID=$(this).attr('TransactionID');
+
     Swal.fire({
         icon: 'info',
-        title: '<p>'+ $('#btnTransaction').val()+ '</p>',
-        html: '<p>transaction</p>'
+        title: '<p>'+ strTransID.TransactionID+ '</p>',
+        html: '<p>'+ strTransID.TransactionDateTime+'</p>',
+        forEach(strTransID.ItemID => {
+            html: '<p>' + strTransID.+ '</p>'
+        });
+        
     })
-})
+})*/
 //end of updating customer information
 
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
     let strCurrentSessionID = sessionStorage.getItem('MembershipID');
-            let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
+            /*let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
             console.log("here");
-            $('#tblPurchaseHistory tbody').append(strTableHTML);
-
-    /*
-        $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases',{strSessionID:strCurrentSessionID},function(result){
+            $('#tblPurchaseHistory tbody').append(strTableHTML);*/
+    $.getJSON('http://localhost:7071/api/swollenCoffee',{function: 'purchases', SessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,transaction){
             let strTableHTML = '<tr><td> <button type="button" class="btn" id="btnTransaction"> '+  transaction.TransactionID+'</button></td></tr>';
             $('#tblPurchaseHistory tbody').append(strTableHTML);
-
-
         })
         })
-    */
 }
 //end for index.html
 
@@ -289,7 +383,7 @@ function doPasswordsMatch(strPassword, strVerifyPassword){
 function verifySession(){
     if(sessionStorage.getItem('MembershipID')){
         let strCurrentSessionID = sessionStorage.getItem('MembershipID')
-        $.getJSON('http://localhost:7071/api/swollenCoffee?', {function:'session', strSessionID: strCurrentSessionID}, function(result){
+        $.getJSON('http://localhost:7071/api/swollenCoffee', {function:'session', strSessionID: strCurrentSessionID}, function(result){
             if(result.Outcome != 'Valid Session'){
                 return false;
             } else {
