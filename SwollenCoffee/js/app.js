@@ -32,14 +32,16 @@ $(document).on('click','#btnLogin', function(){
             }
         })
     } else{
-        $.post('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
+        $.post('http://localhost:7071/api/swollenCoffee?function=session&Email='+$('#txtEmail').val()+'&Password='+$('#txtPassword').val(),function(result){
         objResult = JSON.parse(result); 
-        
-        if(objResult.Outcome != 'Login Failed'){
+
+        if(reobjResult.Outcomesult != 'Login Failed'){ //objResult.Outcome
                 // set your Session Storage Item here
+                console.log(result);
+                localStorage.setItem('MembershipID', objResult.Outcome);
                 sessionStorage.setItem('MembershipID', objResult.Outcome);
                 // then redirect the user to the dashboard
-                window.location.href='index.html';
+                //window.location.href='index.html';
                 //loads QRCode and fills purchase history table
                 loadMemberQR(localStorage.getItem('MembershipID'));
                 fillPurchaseHistoryTable();
@@ -82,7 +84,7 @@ $(document).on('click','#btnNewAccount', function(){
         blnError=true;
         strErrorMessage+='<p>Passwords do not match</p>';
     }
-    if(!$('#txtFirstName').val()){
+    if(!$('#txtNewFirstName').val()){
         blnError=true;
         strErrorMessage+= '<p>First Name is Blank.</p>';
     }
@@ -128,9 +130,11 @@ $(document).on('click','#btnNewAccount', function(){
             html: strErrorMessage
         })
     }else{
-        var objNewSessionPromise= $.post('http://localhost:7071/api/swollenCoffee?', {function:'membership',strEmail:$('#txtEmail').val(), strFirstName:$('#txtFirstName').val(), strLastName:$('#txtLastName').val(), strPassword:$('#txtPassword').val(), strAddress1:$('txtAddress1').val(),strAddress2:$('txtAddress2').val(),strCity:$('txtCity').val(),strState:$('txtState').val(),strZip:$('txtZIP').val(),strPhoneNumber:$('#txtPhoneNumber').val(),strDateOfBirth:$('#txtDateOfBirth').val()}, function(result){
-            console.log(JSON.parse(result).Outcome);
-            objNewSessionPromise = JSON.parse(result);
+        var objNewSessionPromise='';
+          $.post('http://localhost:7071/api/swollenCoffee?function=membership&Email='+$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
+            console.log(result);
+            objNewSessionPromise= JSON.parse(result);
+            console.log(objNewSessionPromise);
         }) 
 
         $.when(objNewSessionPromise).done(function(){
@@ -154,8 +158,9 @@ $(document).on('click','#btnNewAccount', function(){
                         animate__faster
                         `
                     }
+                    //window.location.href='login.html';
                 })
-                window.location.href='login.html'; //window.location.replace removes from history
+                 //window.location.replace removes from history
             }
         })
     }

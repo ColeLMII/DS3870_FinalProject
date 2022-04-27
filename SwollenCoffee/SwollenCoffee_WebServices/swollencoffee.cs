@@ -65,11 +65,11 @@ namespace SQLIntegration
                         string strZIP = req.Query["ZIP"];
                         string strPhoneID = Guid.NewGuid().ToString();
                         string strPhoneNumber = req.Query["PhoneNumber"];
-                        string strDateOfBirth = req.Query["DateOfBirth"];
-                        string strUpdateDateTime = req.Query["UpdateDateTime"];
+                        string strDateOfBirth = req.Query["DOB"];
+                        //string strUpdateDateTime = req.Query["UpdateDateTime"];
 
                         //insert into customer
-                        string strQuery = "insert into dbo.tblCustomers values (@Email, @FirstName, @LastName, @DOB, @MembershipID, @PreferredLocation";
+                        string strQuery = "insert into dbo.tblCustomers values (@Email, @FirstName, @LastName, @DOB, @MembershipID, @PreferredLocation)";
                         using (conSwollenCoffee)
                         using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
                         {
@@ -85,7 +85,7 @@ namespace SQLIntegration
                             parLastName.Value = strLastName;
                             comNewUser.Parameters.Add(parLastName);
 
-                            SqlParameter parDOB = new SqlParameter("DateofBirth", SqlDbType.VarChar);
+                            SqlParameter parDOB = new SqlParameter("DOB", SqlDbType.VarChar);
                             parDOB.Value = strDateOfBirth;
                             comNewUser.Parameters.Add(parDOB);
 
@@ -179,7 +179,7 @@ namespace SQLIntegration
                             parEmail.Value = strEmail;
                             comUsers.Parameters.Add(parEmail);
 
-                            SqlParameter parLocation = new SqlParameter("LoationID", SqlDbType.VarChar);
+                            SqlParameter parLocation = new SqlParameter("LocationID", SqlDbType.VarChar);
                             parLocation.Value = strPreferredLocation;
                             comUsers.Parameters.Add(parLocation);
 
@@ -196,7 +196,7 @@ namespace SQLIntegration
                         using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
                             SqlParameter parSessionID = new SqlParameter("SessionID", SqlDbType.VarChar);
-                            parSessionID.Value = streSessionID;
+                            parSessionID.Value = strMembershipID;
                             comUsers.Parameters.Add(parSessionID);
 
                             SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
