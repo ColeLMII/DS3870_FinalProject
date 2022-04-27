@@ -31,7 +31,7 @@ $(document).on('click','#btnLogin', function(){
                 `
             }
         })
-    } else{//$.post('http://localhost:7071/api/swollenCoffee?function=session&Email='+$('#txtEmail').val()+'&Password='+$('#txtPassword').val(),function(result){
+    } else{
         $.post('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
             let objResult = JSON.parse(result);
             if(objResult != 'Login Failed'){

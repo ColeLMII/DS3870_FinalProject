@@ -69,7 +69,7 @@ namespace SQLIntegration
                         //string strUpdateDateTime = req.Query["UpdateDateTime"];
 
                         //insert into customer
-                        string strQuery = "insert into dbo.tblCustomers values (@Email, @FirstName, @LastName, @DOB, @MembershipID, @PreferredLocation)";
+                        string strQuery = "INSERT INTO dbo.tblCustomers VALUES (@Email, @FirstName, @LastName, @DOB, @MembershipID, @PreferredLocation)";
                         using (conSwollenCoffee)
                         using (SqlCommand comNewUser = new SqlCommand(strQuery, conSwollenCoffee))
                         {
@@ -397,7 +397,7 @@ namespace SQLIntegration
                         string strEmail = req.Query["Email"];
                         string strPassword = req.Query["Password"];
                         DataSet dsUsers = new DataSet();
-                        string strquery = "select * from dbo.tblUsers where UPPER(Email) = UPPER(@Email) and Password = @Password";
+                        string strquery = "SELECT * FROM dbo.tblUsers WHERE UPPER(Email) = UPPER(@Email) and Password = @Password";
                         using (conSwollenCoffee)
                         using (SqlCommand comUsers = new SqlCommand(strquery, conSwollenCoffee))
                         {
