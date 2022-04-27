@@ -35,13 +35,13 @@ $(document).on('click','#btnLogin', function(){
         $.post('http://localhost:7071/api/swollenCoffee?function=session&Email='+$('#txtEmail').val()+'&Password='+$('#txtPassword').val(),function(result){
         objResult = JSON.parse(result); 
 
-        if(reobjResult.Outcomesult != 'Login Failed'){ //objResult.Outcome
+        if(objResult.Outcome != 'Login Failed'){
                 // set your Session Storage Item here
                 console.log(result);
                 localStorage.setItem('MembershipID', objResult.Outcome);
-                sessionStorage.setItem('MembershipID', objResult.Outcome);
+                localStorage.setItem('SessionID', objResult.Outcome);
                 // then redirect the user to the dashboard
-                //window.location.href='index.html';
+                window.location.href='index.html';
                 //loads QRCode and fills purchase history table
                 loadMemberQR(localStorage.getItem('MembershipID'));
                 fillPurchaseHistoryTable();
@@ -130,39 +130,6 @@ $(document).on('click','#btnNewAccount', function(){
             html: strErrorMessage
         })
     }else{
-        var objNewSessionPromise='';
-        /*$.post('http://localhost:7071/api/swollenCoffee?function=membership&Email=' +$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
-            console.log(result);
-            objNewSessionPromise= JSON.parse(result);
-            console.log(objNewSessionPromise);
-        }) 
-
-        $.when(objNewSessionPromise).done(function(){
-            if(objNewSessionPromise.Outcome == 'Login Failed'){
-                Swal.fire({
-                    icon:'error',
-                    title:'Login Failed',
-                    html: '<p> Review Username and Password </p>'
-                })
-            } else{ 
-                sessionStorage.setItem('MembershipID', objNewSessionPromise.Outcome);
-                console.log(objNewSessionPromise);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Acccount Created!',
-                    html: '<p>Please Login to access your account and MembershipID</p>',
-                    showClass: {
-                        popup: `
-                        animate__animated
-                        animate__fadeInDown
-                        animate__faster
-                        `
-                    }
-                    //window.location.href='login.html';
-                })
-                 //window.location.replace removes from history
-            }
-        })*/
         $.post('http://localhost:7071/api/swollenCoffee?function=membership&Email=' +$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
         let objResult = JSON.parse(result);
         if(objResult){
@@ -171,7 +138,7 @@ $(document).on('click','#btnNewAccount', function(){
                 let strSessionID = objResult.Outcome.split('|')[2];
                 localStorage.setItem('MembershipID',strMembershipID);
                 localStorage.setItem('SessionID',strSessionID);
-                createMembershipCode(strMembershipID);
+                loadMemberQR(strMembershipID);
                 Swal.fire({
                     icon: 'success',
                     title: 'Acccount Created!',
@@ -206,7 +173,6 @@ $(document).on('click','#btnBackToLogin', function(){
 $.getJSON('http://localhost:7071/api/swollencoffee',{function:'location'}, function(result){
         console.log(result);//delete eventually
         $.each(result,(i,location)=>{
-            console.log(location.LocationID);
             $('#cboNewPreferredLocation').append('<option value="' + location.locationID + '">' + location.locationID + '</option>');
         }) 
     })
@@ -375,20 +341,20 @@ $(document).on('click','#btnTransaction', function(){
     })
 })*/
 //end of updating customer information
-
+/*
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
     let strCurrentSessionID = sessionStorage.getItem('MembershipID');
-            /*let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
+            let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
             console.log("here");
-            $('#tblPurchaseHistory tbody').append(strTableHTML);*/
+            $('#tblPurchaseHistory tbody').append(strTableHTML);
     $.getJSON('http://localhost:7071/api/swollenCoffee',{function: 'purchases', SessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,transaction){
             let strTableHTML = '<tr><td> <button type="button" class="btn" id="btnTransaction"> '+  transaction.TransactionID+'</button></td></tr>';
             $('#tblPurchaseHistory tbody').append(strTableHTML);
         })
         })
-}
+}*/
 //end for index.html
 
 
