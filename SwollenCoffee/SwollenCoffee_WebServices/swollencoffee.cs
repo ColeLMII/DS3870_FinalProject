@@ -193,9 +193,9 @@ namespace SQLIntegration
                         using (conSwollenCoffee)
                         using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
-                            SqlParameter parEmaill = new SqlParameter("Email", SqlDbType.VarChar);
-                            parEmaill.Value = strEmail;
-                            comUsers.Parameters.Add(parEmaill);
+                            SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                            parEmail.Value = strEmail;
+                            comUsers.Parameters.Add(parEmail);
 
                             SqlParameter parLocation = new SqlParameter("LocationID", SqlDbType.VarChar);
                             parLocation.Value = strPreferredLocation;
@@ -217,9 +217,9 @@ namespace SQLIntegration
                             parSessionID.Value = strMembershipID;
                             comUsers.Parameters.Add(parSessionID);
 
-                            SqlParameter parEmaiil = new SqlParameter("Email", SqlDbType.VarChar);
-                            parEmaiil.Value = strEmail;
-                            comUsers.Parameters.Add(parEmaiil);
+                            SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                            parEmail.Value = strEmail;
+                            comUsers.Parameters.Add(parEmail);
 
                             conSwollenCoffee.Open();
                             comUsers.ExecuteNonQuery();
