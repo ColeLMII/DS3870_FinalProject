@@ -131,7 +131,7 @@ $(document).on('click','#btnNewAccount', function(){
         })
     }else{
         var objNewSessionPromise='';
-          $.post('http://localhost:7071/api/swollenCoffee?function=membership&Email='+$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
+        /*$.post('http://localhost:7071/api/swollenCoffee?function=membership&Email=' +$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
             console.log(result);
             objNewSessionPromise= JSON.parse(result);
             console.log(objNewSessionPromise);
@@ -162,7 +162,38 @@ $(document).on('click','#btnNewAccount', function(){
                 })
                  //window.location.replace removes from history
             }
-        })
+        })*/
+        $.post('http://localhost:7071/api/swollenCoffee?function=membership&Email=' +$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
+        let objResult = JSON.parse(result);
+        if(objResult){
+            if(objResult.Outcome.includes('Success')){
+                let strMembershipID = objResult.Outcome.split('|')[1];
+                let strSessionID = objResult.Outcome.split('|')[2];
+                localStorage.setItem('MembershipID',strMembershipID);
+                localStorage.setItem('SessionID',strSessionID);
+                createMembershipCode(strMembershipID);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Acccount Created!',
+                    html: '<p>Please Login to access your account and MembershipID</p>',
+                    showClass: {
+                        popup: `
+                        animate__animated
+                        animate__fadeInDown
+                        animate__faster
+                        `
+                    }
+                })
+                window.location.href='login.html';
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Membership Not Created',
+                    html: '<p>Something went wrong, we are working to correct it!</p>'
+                })
+            }
+        }
+    })
     }
 })
 

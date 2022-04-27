@@ -171,7 +171,7 @@ namespace SQLIntegration
                         }
 
                         //insert into locations
-                        strQuery = "INSERT INTO dbo.tblCustomerhomeLocations VALUES (@Email, @LocationID, GETDATE())";
+                        strQuery = "INSERT INTO dbo.tblCustomerHomeLocations VALUES (@Email, @LocationID, GETDATE())";
                         using (conSwollenCoffee)
                         using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
@@ -226,7 +226,7 @@ namespace SQLIntegration
                         string strState = req.Query["State"];
                         string strZip = req.Query["Zip"];
 
-                        string strQuery = "UPDATE dbo.tblCustomers SET FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DOB, PreferredLocation = @PreferredLocation WHERE MembershipID = @MemberShipID";
+                        string strQuery = "UPDATE dbo.tblCustomers SET FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DOB, PreferredLocation = @PreferredLocation WHERE MembershipID = @MembershipID";
                         using (conSwollenCoffee)
                         using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
