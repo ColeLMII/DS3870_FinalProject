@@ -34,12 +34,13 @@ $(document).on('click','#btnLogin', function(){
     } else{//$.post('http://localhost:7071/api/swollenCoffee?function=session&Email='+$('#txtEmail').val()+'&Password='+$('#txtPassword').val(),function(result){
         $.post('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
             let objResult = JSON.parse(result);
-            if(objResult != 'Login Failed'){
-                console.log(result);
+
+            if(objResult.Outcome != 'Login Failed'){
+                console.log(objResult.Outcome);
                 localStorage.setItem('MembershipID', objResult.Outcome);
                 localStorage.setItem('SessionID', objResult.Outcome);
                 
-                window.location.href='index.html';
+                //window.location.href='index.html';
                 
                 loadMemberQR(localStorage.getItem('MembershipID'));
                 fillPurchaseHistoryTable();
@@ -56,6 +57,7 @@ $(document).on('click','#btnLogin', function(){
 })
 
 function loadMemberQR(MembershipID){
+    console.log(MembershipID);
     new QRcode(document.getElementById("divQRcode"),MembershipID);
     $('#spUsername').text(MembershipID);
 }
@@ -131,13 +133,14 @@ $(document).on('click','#btnNewAccount', function(){
     }else{
         $.post('http://localhost:7071/api/swollenCoffee?function=membership&Email=' +$('#txtNewEmail').val()+'&FirstName='+$('#txtNewFirstName').val()+'&LastName='+$('#txtLastName').val()+'&PreferredLocation='+$('#cboNewPreferredLocation').val()+'&Password='+$('#txtNewPassword').val()+'&Address1='+$('#txtAddress1').val()+'&Address2='+$('#txtAddress2').val()+'&City='+$('#txtCity').val()+'&State='+$('#txtState').val()+'&ZIP='+$('#txtZIP').val()+'&PhoneNumber='+$('#txtPhoneNumber').val()+'&DOB='+$('#txtDateOfBirth').val(),  function(result){
         let objResult = JSON.parse(result);
+        
         if(objResult){
             if(objResult.Outcome.includes('Success')){
                 let strMembershipID = objResult.Outcome.split('|')[1];
                 let strSessionID = objResult.Outcome.split('|')[2];
                 localStorage.setItem('MembershipID',strMembershipID);
                 localStorage.setItem('SessionID',strSessionID);
-                loadMemberQR(strMembershipID);
+                
                 Swal.fire({
                     icon: 'success',
                     title: 'Acccount Created!',
