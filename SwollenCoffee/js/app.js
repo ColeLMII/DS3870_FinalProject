@@ -33,25 +33,24 @@ $(document).on('click','#btnLogin', function(){
         })
     } else{
         $.post('http://localhost:7071/api/swollenCoffee?function=session&Email='+$('#txtEmail').val()+'&Password='+$('#txtPassword').val(),function(result){
-        objResult = JSON.parse(result); 
-
-        if(objResult.Outcome != 'Login Failed'){
-                // set your Session Storage Item here
-                console.log(result);
-                localStorage.setItem('MembershipID', objResult.Outcome);
-                localStorage.setItem('SessionID', objResult.Outcome);
-                // then redirect the user to the dashboard
-                window.location.href='index.html';
-                //loads QRCode and fills purchase history table
-                loadMemberQR(localStorage.getItem('MembershipID'));
-                fillPurchaseHistoryTable();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Failed',
-                    html: '<p>Your email address and password are not an account</p>'
-                })
-            }
+            objResult = JSON.parse(result); 
+            if(objResult.Outcome != 'Login Failed'){
+                    // set your Session Storage Item here
+                    console.log(result);
+                    localStorage.setItem('MembershipID', objResult.Outcome);
+                    localStorage.setItem('SessionID', objResult.Outcome);
+                    // then redirect the user to the dashboard
+                    window.location.href='index.html';
+                    //loads QRCode and fills purchase history table
+                    loadMemberQR(localStorage.getItem('MembershipID'));
+                    fillPurchaseHistoryTable();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed',
+                        html: '<p>Your email address and password are not an account</p>'
+                    })
+                }
         })
     }
 })

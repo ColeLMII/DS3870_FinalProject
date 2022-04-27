@@ -132,6 +132,24 @@ namespace SQLIntegration
                             conSwollenCoffee.Close();
                         }
 
+                        strQuery = "INSERT INTO dbo.tblUsers VALUES(UPPER(@Email),'User',@Password,GETDATE(),GETDATE(),1)";
+                        using (conSwollenCoffee)
+                        using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
+                        {
+                            SqlParameter parEmail = new SqlParameter("Email", SqlDbType.VarChar);
+                            parEmail.Value = strEmail;
+                            comUsers.Parameters.Add(parEmail);
+
+                            SqlParameter parPassword = new SqlParameter("Password", SqlDbType.VarChar);
+                            parPassword.Value = strPassword;
+                            comUsers.Parameters.Add(parPassword);
+
+
+                            conSwollenCoffee.Open();
+                            comUsers.ExecuteNonQuery();
+                            conSwollenCoffee.Close();
+                        }
+
                         //insert into Address
                         strQuery = "INSERT INTO dbo.tblAddress VALUES (@AddressID, @Address1, @Address2, @City, @State, @ZIP, @Member)";
                         using (conSwollenCoffee)
