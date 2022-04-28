@@ -230,9 +230,9 @@ $(document).on('click','#btnUpdateInformation', function(){
             $('#txtUpdateLastName').val(member.lastName);
             $('#txtUpdateDateofBirth').val(member.dateOfBirth.split('T')[0]);
             $('#txtUpdatePhoneNumber').val(member.areaCOde + member.telephoneNumber);
-            $('#txtUpdatePhone').attr('data-phoneid',member.phoneID);
+            $('#txtUpdatePhoneID').val(member.phoneID);
             $('#txtUpdateAddress1').val(member.street1);
-            $('#txtUpdateAddress1').attr('data-addressid',member.addressID);
+            $('#txtUpdateAddressID').val(member.addressID);
             $('#txtUpdateAddress2').val(member.street2);
             $('#txtUpdateCity').val(member.city);
             $('#txtUpdateState').val(member.state);
@@ -302,7 +302,7 @@ $(document).on('click', '#btnSubmitUpdate', function(){
     }else{ // this needs to be a put not a post. +'&PreferredLocation=' + $('#cboNewPreferredLocation').val()
         $.ajax({
             type:'PUT',
-            url:'http://localhost:7071/api/swollencoffee?function=membership&Email='+ $('#txtUpdateAddress').val()+'&Firstname='+$('#txtUpdateFirstName').val()+'&Lastname='+ $('#txtUpdateLastName').val()+'&DateOfBirth=' + $('#txtUpdateDateofBirth').val()+'&MembershipID=' + localStorage.getItem('SessionID')+'&PreferredLocation=' + $('#cboNewPreferredLocation').val()+'&PhoneID='+ $('#txtUpdatePhoneNumber').attr('data-phoneid')+ '&TelephoneNumber=' + $('#txtUpdatePhoneNumber').val()+'&AddressID='+$('#txtUpdateAddress1').attr('data-addressid')+ '&Address1=' + $('#txtUpdateAddress1').val() + '&Address2=' + $('#txtUpdateAddress2').val() + '&City=' + $('#txtUpdateCity').val() + '&State=' + $('#txtUpdateState').val() + '&Zip=' + $('#txtUpdateZip').val() 
+            url:'http://localhost:7071/api/swollencoffee?function=membership&Email='+ $('#txtUpdateAddress').val()+'&Firstname='+$('#txtUpdateFirstName').val()+'&Lastname='+ $('#txtUpdateLastName').val()+'&DateOfBirth=' + $('#txtUpdateDateofBirth').val()+'&MembershipID=' + localStorage.getItem('SessionID')+'&PreferredLocation=' + $('#cboNewPreferredLocation').val()+'&PhoneID='+ $('#txtUpdatePhoneID').val()+ '&TelephoneNumber=' + $('#txtUpdatePhoneNumber').val()+'&AddressID='+$('#txtUpdateAddressID').val()+ '&Address1=' + $('#txtUpdateAddress1').val() + '&Address2=' + $('#txtUpdateAddress2').val() + '&City=' + $('#txtUpdateCity').val() + '&State=' + $('#txtUpdateState').val() + '&Zip=' + $('#txtUpdateZip').val() 
         }).done(function(result){
             console.log(result);
             Swal.fire({
@@ -336,7 +336,7 @@ $(document).on('click','#btnViewHistory',function(){
         })
     })
     $('#divPurchaseHistory').slideToggle();
-    //fillPurchaseHistoryTable();
+    fillPurchaseHistoryTable();
 })
 
 /*
@@ -361,7 +361,6 @@ function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
     let strCurrentSessionID = sessionStorage.getItem('MembershipID');
             let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
-            console.log("here");
             $('#tblPurchaseHistory tbody').append(strTableHTML);
     $.getJSON('http://localhost:7071/api/swollenCoffee',{function: 'purchases', SessionID:strCurrentSessionID},function(result){
         $.each(result,function(i,transaction){
