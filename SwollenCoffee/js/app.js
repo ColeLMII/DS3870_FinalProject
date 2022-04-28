@@ -340,7 +340,6 @@ $(document).on('click','#btnViewHistory',function(){
         })
     })
     $('#divPurchaseHistory').slideToggle();
-    fillPurchaseHistoryTable();
 })
 
 /*
@@ -361,18 +360,6 @@ $(document).on('click','#btnTransaction', function(){
 })*/
 //end of updating customer information
 
-function fillPurchaseHistoryTable(){
-    $('#tblPurchaseHistory tbody').empty();
-    let strCurrentSessionID = sessionStorage.getItem('MembershipID');
-            let strTableHTML = '<tr><td> <button type="button" class="btn col-12" id="btnTransaction">  x42ghue78 </button></td></tr>';
-            $('#tblPurchaseHistory tbody').append(strTableHTML);
-    $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases&SessionID=' + localStorage.getItem("SessionID"),function(result){
-        $.each(result,function(i,transaction){
-            let strTableHTML = '<tr><td> <button type="button" class="btn" id="btnTransaction"> '+  transaction.TransactionID+'</button></td></tr>';
-            $('#tblPurchaseHistory tbody').append(strTableHTML);
-        })
-        })
-}
 //end for index.html
 
 
