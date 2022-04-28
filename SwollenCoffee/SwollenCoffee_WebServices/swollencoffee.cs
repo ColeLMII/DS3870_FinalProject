@@ -479,7 +479,7 @@ namespace SQLIntegration
                         string strSessionID = req.Query["SessionID"];
                         DataSet dsPurchases = new DataSet();
 
-                        string strQuery = "SELECT dbo.tblTransactions.*, dbo.tblTransactionItems.* FROM dbo.tblSessions LEFT JOIN dbo.tblTransactions ON tblSessions.Email = tblTransactions.Member LEFT JOIN tblTransactionItems ON tblTransactions.TransactionID = tblTransactionItems.[Transaction] WHERE tblSessions.SessionID = @SessionID";
+                        string strQuery = "SELECT dbo.tblTransactions.*, dbo.tblTransactionItems.*, dbo.tblItems.* FROM dbo.tblSessions,dbo.tblCustomers, dbo.tblTransactions, dbo.tblTransactionItems, dbo.tblItems WHERE dbo.tblSessions.SessionID = @SessionID AND dbo.tblCustomers.Email = dbo.tblSessions.Email AND dbo.tblTransactions.Member = dbo.tblCustomers.MembershipID AND dbo.tblTransactions.TransactionID = dbo.tblTransactionItems.[Transaction] AND dbo.tblItems.ItemId = dbo.tblTransactionItems.ItemID;";
 
                         using (SqlConnection conSwollenCoffee = new SqlConnection(strTaskConnectionString))
                         using (SqlCommand comSession = new SqlCommand(strQuery, conSwollenCoffee))
