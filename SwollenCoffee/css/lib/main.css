@@ -25,6 +25,14 @@ body{
     background: var(--color-primary);
 
 }
+.btn-danger{
+    color:#ffffff;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor:pointer;
+    background: var(--color-error);
+}
 
 .navbar{
     --color-primary: #ffd791;

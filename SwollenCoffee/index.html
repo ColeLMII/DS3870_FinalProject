@@ -11,7 +11,7 @@
     
 </head>
 
-<body style="background-image: url(./images/coffeebean.jpg); background-repeat: no-repeat; background-attachment: fixed;">
+<body style="background-image: url(./images/coffee_bg.JPG); background-repeat: no-repeat; background-attachment: fixed;">
     
     <div class="container vh-100">
         
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="display:none;" id="divUpdateInfo">
+            <div class="row" style="display:none; " id="divUpdateInfo">
                 <div class="card col-12 col-md-8 offset-md-2 mt-3"  style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);">
                     <div class="card-header">
                         <h3 class="text-center" style="color:bisque;">Update Your Information</h3>
@@ -98,9 +98,12 @@
                                 </h6>
                             </row>
                         </div>
-                        <div class="d-flex justify-content-end" aria label="Submit Update">
-                            <button class="btn" id="btnSubmitUpdate"> Submit Update </button>
-                        </div>
+                            <div class="row col-12" >
+                                <div class="col"><button class="btn btn-danger btn-sm" id="btnCancelUpdate" aria label="Cancel Update" > Cancel Update </button></div>
+                                <div class="col"><button class="btn btn-sm" id="btnSubmitUpdate" aria label="Submit Update"> Submit Update </button></div>
+                            </div>
+                        
+                        
                     </div>
                 </div>
             </div>
