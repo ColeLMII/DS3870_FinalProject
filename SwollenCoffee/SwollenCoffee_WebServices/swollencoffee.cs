@@ -233,7 +233,7 @@ namespace SQLIntegration
                         string strFirstName = req.Query["Firstname"];
                         string strLastName = req.Query["Lastname"];
                         string strDateOfBirth = req.Query["DateOfBirth"];
-                        string strMembershipID = req.Query["MemebershipID"];
+                        string strMembershipID = req.Query["MembershipID"];
                         string strPreferredLocation = req.Query["PreferredLocation"];
                         string strPhoneID = req.Query["PhoneID"];
                         string strPhone = req.Query["TelephoneNumber"];

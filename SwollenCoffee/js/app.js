@@ -173,7 +173,7 @@ $(document).on('click','#btnBackToLogin', function(){
 
 //populates preferred locations
 $.getJSON('http://localhost:7071/api/swollencoffee',{function:'location'}, function(result){
-        console.log(result);//delete eventually
+        
         $.each(result,(i,location)=>{
             $('#cboNewPreferredLocation').append('<option value="' + location.locationID + '">' + location.locationID + '</option>');
         }) 
@@ -205,12 +205,13 @@ $(document).on('click','#btnToggleExisting', function(){
 })
 
 $(document).on('click','#btnUpdateInformation', function(){
-    $.getJSON('http://localhost:7071/api/swollencoffee?function=membership&SessionID='+localStorage.getItem(MembershipID),function(result){
+    $.getJSON('http://localhost:7071/api/swollencoffee?function=membership&SessionID='+localStorage.getItem('SessionID'),function(result){
+    
         $.each(result,(i,member)=>{
-            $('#txtUpdateEmail').val(member.email);
+            $('#txtUpdateAddress').val(member.email);
             $('#txtUpdateFirstName').val(member.firstName);
             $('#txtUpdateLastName').val(member.lastName);
-            $('#txtUpdateDateOfBirth').val(member.dateOfBirth);
+            $('#txtUpdateDateofBirth').val(member.dateOfBirth.split('T')[0]);
             $('#txtUpdatePhoneNumber').val(member.areaCOde + member.telephoneNumber);
             $('#txtUpdatePhone').attr('data-phoneid',member.phoneID);
             $('#txtUpdateAddress1').val(member.street1);
@@ -229,56 +230,49 @@ $(document).on('click','#btnUpdateInformation', function(){
 $(document).on('click', '#btnSubmitUpdate', function(){
     let strErrorMessage='';
     let blnError = false;
-    if(!$('#txtEmail').val()){
+    if(!$('#txtUpdateAddress').val()){
         blnError=true;
         strErrorMessage+= '<p>Email is Blank.</p>';
-    }else if(!isValidEmail($('#txtEmail').val())){
+    }else if(!isValidEmail($('#txtUpdateAddress').val())){
         blnError=true;
         strErrorMessage+='<p>Email is not valid</p>';
     }
-    /*if(!$('#txtPassword').val()){
-        blnError=true;
-        strErrorMessage+= '<p>Password is Blank.</p>';
-    }else if(!isValidPassword($('#txtPassword').val())){
-        blnError=true;
-        strErrorMessage+='<p>Password is not valid</p>';
-    }*/
-    if(!$('#txtFirstName').val()){
+    if(!$('#txtUpdateFirstName').val()){
         blnError=true;
         strErrorMessage+= '<p>First Name is Blank.</p>';
     }
-    if(!$('#txtLastName').val()){
+    if(!$('#txtUpdateLastName').val()){
         blnError=true;
         strErrorMessage+= '<p>Last Name is Blank.</p>';
     }
-    if(!$('#txtAddress1').val()){
+    if(!$('#txtUpdateAddress1').val()){
         blnError=true;
         strErrorMessage+= '<p>Address 1 is Blank.</p>';
     }
-    if(!$('#txtAddress2').val()){
+    if(!$('#txtUpdateAddress2').val()){
         blnError=true;
         strErrorMessage+= '<p>Address 2 is Blank.</p>';
     }
-    if(!$('#txtCity').val()){
+    if(!$('#txtUpdateCity').val()){
         blnError=true;
         strErrorMessage+= '<p>City is Blank.</p>';
     }
-    if(!$('#txtState').val()){
+    if(!$('#txtUpdateState').val()){
         blnError=true;
         strErrorMessage+= '<p>State is Blank.</p>';
     }
-    if(!$('#txtZIP').val()){
+    if(!$('#txtUpdateZip').val()){
         blnError=true;
         strErrorMessage+= '<p>Zip Code is Blank.</p>';
-    } else if ($('#txtZIP').val().length < 5 || $('#txtZIP').val().length < 5){
+    } else if ($('#txtUpdateZip').val().length < 5 || $('#txtUpdateZip').val().length < 5){
         blnError=true;
         strErrorMessage+= '<p>Zip Code Must be 5 Digits Long.'
     }
-    if(!$('#txtPhoneNumber').val()){
+    if(!$('#txtUpdatePhoneNumber').val()){
         blnError=true;
         strErrorMessage+= '<p>Phone Number is Blank.</p>';
     }
-    if(!$('#txtDateOfBirth').val()){
+    if(!$('#txtUpdateDateofBirth').val()){
         blnError=true;
         strErrorMessage+= '<p>Birthday is Blank.</p>';
     }
@@ -291,7 +285,7 @@ $(document).on('click', '#btnSubmitUpdate', function(){
     }else{ // this needs to be a put not a post.
         $.ajax({
             type:'PUT',
-            url:'http://localhost:7071/api/swollencoffee?function=membership&PhoneID='+ $('#txtUpdatePhone').attr('data-phoneid')+'&AddressID='+$('#txtUpdateAddress1').attr('data-addressid')+'&Email='+ $('txtUpdateEmail').val()+'&FirstName='+$$('txtUpdateFirstName').val()+'&LastName='+ $('txtUpdateLastName').val()+'&DateOfBirth=' + $('#txtUpdateDateOfBirth').val() + '&PreferredLocation=' + $('#cboNewPreferredLocation').val() + '&TelephoneNumber=' + $('#txtUpdatePhone').val() + '&Street1=' + $('#txtUpdateAddress1').val() + '&Street2=' + $('#txtUpdateAddress2').val() + '&City=' + $('#txtUpdateCity').val() + '&State=' + $('#txtUpdateState').val() + '&Zip=' + $('#txtUpdateZip').val() + '&Password=' + $('#txtUpdatePassword').val() + '&MembershipID=' + localStorage.getItem('MembershipID')
+            url:'http://localhost:7071/api/swollencoffee?function=membership&PhoneID='+ $('#txtUpdatePhone').attr('data-phoneid')+'&AddressID='+$('#txtUpdateAddress1').attr('data-addressid')+'&Email='+ $('txtUpdateEmail').val()+'&FirstName='+$('txtUpdateFirstName').val()+'&LastName='+ $('txtUpdateLastName').val()+'&DateOfBirth=' + $('#txtUpdateDateOfBirth').val() +'&MembershipID=' + localStorage.getItem('SessionID')+'&PreferredLocation=' + $('#cboNewPreferredLocation').val() + '&TelephoneNumber=' + $('#txtUpdatePhone').val() + '&Street1=' + $('#txtUpdateAddress1').val() + '&Street2=' + $('#txtUpdateAddress2').val() + '&City=' + $('#txtUpdateCity').val() + '&State=' + $('#txtUpdateState').val() + '&Zip=' + $('#txtUpdateZip').val() + '&Password=' + $('#txtUpdatePassword').val() 
         }).done(function(result){
             console.log(result);
             Swal.fire({

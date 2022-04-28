@@ -24,25 +24,19 @@
             <div class="row">
                 <div class="card col-12 col-md-8 offset-md-2 mt-2" style="background-size: cover; background-color: rgba(97, 44, 44, 0.093); backdrop-filter: blur(5px);"id="divUserInfo">
                     <div class="card-header d-flex justify-content-center">
-                        <h3 style="color:bisque;">Swollen Coffee Member</h3>
+                        <h3 style="color:bisque;">Membership QR</h3>
                     </div>
                     <div class="card-body">
-                        <div class="row col-12">
+                        <!--<div class="row col-12">
                             <h5 class="col-3 fs-6 text-white">First Name: <span id="spFirstName"></span></h5>
                         </div>
                         <div class="row col-12">
                             <h5 class="col-3 fs-6 text-white">Last Name: <span id="spLastName"></span></h5>
-                        </div>
+                        </div>-->
                         <div class="row col-12" >
-                            <row><p id="divQRcode"></p>></row>
-                            <h5 class="d-flex justify-content-center fs-5" style="color:bisque;">Membership QR: <span id="spUsername"></span>
-                            </h5>
-
+                            <row class="d-flex justify-content-center"style="color:bisque;"><p id="divQRcode"></p></row>
                         </div>
-                        <row class="col-12 d-flex justify-content-center">
-                            <div id=""></div>
-                        </row>
-                        
+                        <p class="d-flex mt-5 fs-6" style="justify-content: center; color:bisque;" id="spUsername"></p>
                         <div class="d-flex justify-content-center my-2" aria label="Update Information">
                             <button class="btn " id="btnUpdateInformation" > Update Information </button>
                         </div>
@@ -69,7 +63,7 @@
                                 </h6>
                                 <h6 class="col-12" style="color:bisque;">
                                     Date of Birth: 
-                                        <input id="txtUpdateDateofBirth" type="date" class="form-control mt-3 border border-primary rounded" aria-label="Update Date of Birth" placeholder="Date of Birth">
+                                        <input id="txtUpdateDateofBirth" type="datetime" class="form-control mt-3 border border-primary rounded" aria-label="Update Date of Birth" placeholder="Date of Birth">
                                     </h6>
                                 <h6 class="col-12" style="color:bisque;">
                                     Phone Number: 
@@ -97,7 +91,6 @@
                                         </select>
                                     </div>
                                 </h6>
-                                
                             </row>
                         </div>
                         <div class="d-flex justify-content-end" aria label="Submit Update">
