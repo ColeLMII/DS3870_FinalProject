@@ -313,6 +313,7 @@ $(document).on('click','#btnViewHistory',function(){
     $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases&SessionID=' + localStorage.getItem("SessionID"),function(result){
         let strHTML = '';
         console.log(result);
+       
         $.each(result,(i,purchase) =>{
            strHTML += '<div class="card mt-2"><div class="card-header"<h3 class="col-12 text-left">' + purchase.transactionDateTime.split('T')[0] + '</h3></div><div class="card-body"><p class="text-left">Item: ' + purchase.description + '</p><p class="text-left">Quantity: ' + purchase.qty  + '</p><p class="text-left">Price: ' + purchase.qtyPrice  + '</p></div></div>'
         })
