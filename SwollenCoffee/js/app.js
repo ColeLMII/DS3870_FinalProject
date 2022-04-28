@@ -40,10 +40,22 @@ $(document).on('click','#btnLogin', function(){
                 let MembershiID= objResult.SessionID.split('|')[1];
                 localStorage.setItem('MembershipID', MembershiID);
                 localStorage.setItem('SessionID', SessionID);
-                
-                window.location.href='index.html';
+                $.ajax({
+                    method:'PUT',
+                    url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('SessionID')
+                }).done(function(result){
+                    console.log(result);
+                    let objResult = JSON.parse(result);
+                    if(objResult.Outcome == 'Session Updated'){
+                        window.location.href='index.html';
+                        loadMemberQR(localStorage.getItem('MembershipID'));
+                    }
+                    
+                })
+
+                //window.location.href='index.html';
                 loadMemberQR(localStorage.getItem('MembershipID'));
-                fillPurchaseHistoryTable();
+                //fillPurchaseHistoryTable();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -313,8 +325,7 @@ $(document).on('click','#btnViewHistory',function(){
     $.getJSON('http://localhost:7071/api/swollenCoffee?function=purchases&SessionID=' + localStorage.getItem("SessionID"),function(result){
         let strHTML = '';
         console.log(result);
-       
-        $.each(result,(i,purchase) =>{
+       $.each(result,(i,purchase) =>{
            strHTML += '<div class="card mt-2"><div class="card-header"<h3 class="col-12 text-left">' + purchase.transactionDateTime.split('T')[0] + '</h3></div><div class="card-body"><p class="text-left">Item: ' + purchase.description + '</p><p class="text-left">Quantity: ' + purchase.qty  + '</p><p class="text-left">Price: ' + purchase.qtyPrice  + '</p></div></div>'
         })
         Swal.fire({
