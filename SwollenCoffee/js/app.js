@@ -32,18 +32,18 @@ $(document).on('click','#btnLogin', function(){
             }
         })
     } else{
-        $.post('http://localhost:7071/api/swollenCoffee',{function:'session', Email:$('#txtEmail').val(),Password:$('#txtPassword').val()},function(result){
+        $.post('http://localhost:7071/api/swollenCoffee?function=session&Email='+$('#txtEmail').val()+'&Password='+$('#txtPassword').val(),function(result){
             let objResult = JSON.parse(result);
-
-            if(objResult.Outcome != 'Login Failed'){
-                console.log(objResult.Outcome);
-                localStorage.setItem('MembershipID', objResult.Outcome);
-                localStorage.setItem('SessionID', objResult.Outcome);
+            console.log(objResult);
+            if(objResult != 'Login Failed'){
+                let SessionID= objResult.SessionID.split('|')[0];
+                let MembershiID= objResult.SessionID.split('|')[1];
+                localStorage.setItem('MembershipID', MembershiID);
+                localStorage.setItem('SessionID', SessionID);
                 
-                //window.location.href='index.html';
-                
-                loadMemberQR(localStorage.getItem('MembershipID'));
-                fillPurchaseHistoryTable();
+                window.location.href='index.html';
+                //loadMemberQR(localStorage.getItem('MembershipID'));
+                //fillPurchaseHistoryTable();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -57,8 +57,8 @@ $(document).on('click','#btnLogin', function(){
 })
 
 function loadMemberQR(MembershipID){
-    console.log(MembershipID);
-    new QRcode(document.getElementById("divQRcode"),MembershipID);
+    console.log('Called Load Member QR');
+    new QRCode(document.getElementById("divQRcode"),MembershipID);
     $('#spUsername').text(MembershipID);
 }
 //end of login.html

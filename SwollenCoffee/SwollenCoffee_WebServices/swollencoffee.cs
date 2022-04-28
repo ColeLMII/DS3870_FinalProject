@@ -393,6 +393,7 @@ namespace SQLIntegration
                     if (req.Method == HttpMethods.Post)
                     {
                         string strSessionID = Guid.NewGuid().ToString();
+                        string strMembershipID = Guid.NewGuid().ToString();
 
                         string strEmail = req.Query["Email"];
                         string strPassword = req.Query["Password"];
@@ -429,12 +430,13 @@ namespace SQLIntegration
                                 conSwollenCoffee.Open();
                                 comInsert.ExecuteNonQuery();
                                 conSwollenCoffee.Close();
-                                return new OkObjectResult("{\"SessionID\":\"" + strSessionID + "\"}");
+                                
+                                return new OkObjectResult("{\"SessionID\":\"" + strSessionID + "|" + strMembershipID + "\"}");
                             }
                         }
                         else
                         {
-                            return new OkObjectResult("User Not Found");
+                            return new OkObjectResult("Login Failed");
                         }
                     }
                     if (req.Method == HttpMethods.Put)
