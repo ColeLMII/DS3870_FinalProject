@@ -42,8 +42,8 @@ $(document).on('click','#btnLogin', function(){
                 localStorage.setItem('SessionID', SessionID);
                 
                 window.location.href='index.html';
-                //loadMemberQR(localStorage.getItem('MembershipID'));
-                //fillPurchaseHistoryTable();
+                loadMemberQR(localStorage.getItem('MembershipID'));
+                fillPurchaseHistoryTable();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -184,19 +184,25 @@ $(document).on('click','#btnSignOut', function(){
     Swal.fire({
         icon: 'error',
         title: 'Sign Out',
-        html: 'Are you sure?'
+        html: 'Are you sure?',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        showConfirmButton: true,
+        confirmButtonText: 'Yes',
     }).then((result)=>{
-        $.ajax({
-            method:'DELETE',
-            url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('SessionID')
-        }).done(function(result){
-            console.log(result);
-            let objResult = JSON.parse(result);
-            if(objResult.Outcome == 'Session Deleted'){
-                localStorage.removeItem('MembershipID');
-                window.location.href='login.html';
-            }
-        })  
+        if (result.isConfirmed){
+            $.ajax({
+                method:'DELETE',
+                url:'http://localhost:7071/api/swollenCoffee?function=session&SessionID=' + localStorage.getItem('SessionID')
+            }).done(function(result){
+                console.log(result);
+                let objResult = JSON.parse(result);
+                if(objResult.Outcome == 'Session Deleted'){
+                    localStorage.removeItem('SessionID');
+                    window.location.href='login.html';
+                }
+            })
+        }
     })
 })
 
@@ -299,7 +305,6 @@ $(document).on('click', '#btnSubmitUpdate', function(){
                     `
                 }
             })
-
         })
     }
 })
@@ -338,7 +343,7 @@ $(document).on('click','#btnTransaction', function(){
     })
 })*/
 //end of updating customer information
-/*
+
 function fillPurchaseHistoryTable(){
     $('#tblPurchaseHistory tbody').empty();
     let strCurrentSessionID = sessionStorage.getItem('MembershipID');
@@ -351,7 +356,7 @@ function fillPurchaseHistoryTable(){
             $('#tblPurchaseHistory tbody').append(strTableHTML);
         })
         })
-}*/
+}
 //end for index.html
 
 
