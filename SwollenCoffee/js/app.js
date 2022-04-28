@@ -224,7 +224,6 @@ $(document).on('click','#btnToggleExisting', function(){
 
 $(document).on('click','#btnUpdateInformation', function(){
     $.getJSON('http://localhost:7071/api/swollencoffee?function=membership&SessionID='+localStorage.getItem('SessionID'),function(result){
-        console.log(result);
         $.each(result,(i,member)=>{
             $('#txtUpdateAddress').val(member.email);
             $('#txtUpdateFirstName').val(member.firstName);
@@ -316,8 +315,10 @@ $(document).on('click', '#btnSubmitUpdate', function(){
                     animate__faster
                     `
                 }
+
             })
         })
+        $('#divUpdateInfo').slideToggle();
     }
 })
 
