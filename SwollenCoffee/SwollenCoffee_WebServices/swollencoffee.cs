@@ -244,7 +244,7 @@ namespace SQLIntegration
                         string strState = req.Query["State"];
                         string strZip = req.Query["Zip"];
 
-                        string strQuery = "UPDATE dbo.tblCustomers SET FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DOB, PreferredLocation = @PreferredLocation WHERE MembershipID = @MembershipID";
+                        string strQuery = "UPDATE dbo.tblCustomers SET FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DateOfBirth, PreferredLocation = @PreferredLocation WHERE MembershipID = @MembershipID";
                         using (SqlConnection conSwollenCoffee = new SqlConnection(strTaskConnectionString))
                         using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
@@ -256,7 +256,7 @@ namespace SQLIntegration
                             parLastName.Value = strLastName;
                             comUsers.Parameters.Add(parLastName);
 
-                            SqlParameter parDOB = new SqlParameter("DOB", SqlDbType.VarChar);
+                            SqlParameter parDOB = new SqlParameter("DateOfBirth", SqlDbType.VarChar);
                             parDOB.Value = strDateOfBirth;
                             comUsers.Parameters.Add(parDOB);
 
@@ -299,7 +299,7 @@ namespace SQLIntegration
                             conSwollenCoffee.Close();
                         }
 
-                        strQuery = "UPDATE dbo.tblAddress SET Street1 = @Address1,Address2 = @Address2,City = @City, State = @State,ZIP = @ZIP WHERE AddressID = @AddressID";
+                        strQuery = "UPDATE dbo.tblAddress SET Street1 = @Address1,Street2 = @Address2,City = @City, State = @State,ZIP = @ZIP WHERE AddressID = @AddressID";
                         using (SqlConnection conSwollenCoffee = new SqlConnection(strTaskConnectionString))
                         using (SqlCommand comUsers = new SqlCommand(strQuery, conSwollenCoffee))
                         {
@@ -478,7 +478,7 @@ namespace SQLIntegration
                     {
                         string strSessionID = req.Query["SessionID"];
                         DataSet dsPurchases = new DataSet();
-                        string strQuery = "SELECT dbo.tblTransactions.*, dbo.tblTransactionItems.* FROM dbo.tblSessions LEFT JOIN dbo.tblTransactions ON tblSessions.Email = tblTransactions.Member LEFT JOIN tblTransactionItems ON tblTransactions.TransactionID = tblTransactionItems.Transaction WHERE tblSessions.SessionID = @SessionID";
+                        string strQuery = "SELECT dbo.tblTransactions.*, dbo.tblTransactionItems.* FROM dbo.tblSessions LEFT JOIN dbo.tblTransactions ON tblSessions.Email = tblTransactions.Member LEFT JOIN tblTransactionItems ON tblTransactions.TransactionID = tblTransactionItems.(Transaction) WHERE tblSessions.SessionID = @SessionID";
                         using (SqlConnection conSwollenCoffee = new SqlConnection(strTaskConnectionString))
                         using (SqlCommand comSession = new SqlCommand(strQuery, conSwollenCoffee))
                         {
